@@ -1,11 +1,19 @@
 #include <stdexcept>
 #include <assert.h>
 
-// (pop)head -> ... -> ... -> tail(push)
-
+/// <summary>
+/// A FIFO (First In First Out) data structure implementation
+/// </summary>
+/// <remarks>
+/// (pop)head -> ... -> ... -> tail(push)
+/// </remarks>
 template <typename T>
 class Queue {
+
 public:
+
+	// CONSTRUCTORS
+
 	Queue() : head(NULL), tail(NULL), size(0) {}
 
 	Queue(const Queue& other) {
@@ -13,11 +21,13 @@ public:
 		this->copy(other);
 	}
 
+	// DESTRUCTOR
+
 	~Queue() {
 		clear();
 	}
 
-	// modifiers
+	// MODIFIERS
 
 	void push(const T & data) {
 		QueueElement* newElem = new QueueElement(data);
@@ -50,13 +60,11 @@ public:
 		return data;
 	}
 
-	// accessors
+	// ACCESSORS
 
 	bool isEmpty() const {
 		return this->size == 0;
 	}
-
-	// operators
 
 	int getSize() const {
 		return this->size;
@@ -71,7 +79,7 @@ public:
 		return tail->data;
 	}
 
-	// override operators
+	// OPERATORS
 
 	const Queue<T>& operator = (const Queue<T>& other) {
 		this->copy(other);
@@ -83,6 +91,9 @@ public:
 
 private:
 
+	/// <summary>
+	/// An element of the queue
+	/// </summary>
 	class QueueElement {
 	public:
 		QueueElement(const T& data, QueueElement* next = NULL) : data(data), next(next) {}
@@ -91,6 +102,8 @@ private:
 		T data;
 		QueueElement* next;
 	};
+
+	// UTILS
 
 	void clear() {
 		while (!isEmpty()) {
@@ -107,11 +120,14 @@ private:
 		}
 	}
 
+	// FIELDS
+
 	QueueElement* head;
 	QueueElement* tail;
 	int size;
 };
 
+// OSTREAM OPERATOR
 
 template<typename U>
 std::ostream & operator<<(std::ostream & os, const Queue<U>& queue) {
