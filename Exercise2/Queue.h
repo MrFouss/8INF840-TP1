@@ -1,17 +1,20 @@
 #include <stdexcept>
+#include <assert.h>
 
 // (pop)head -> ... -> ... -> tail(push)
+
 template <typename T>
 class Queue {
 public:
 	Queue() : head(NULL), tail(NULL), size(0) {}
 
-	//Queue(const Queue&);
+	Queue(const Queue& other) {
+		Queue();
+		this->copy(other);
+	}
 
 	~Queue() {
-		while (!isEmpty()) {
-			pop();
-		}
+		clear();
 	}
 
 	// modifiers
@@ -29,9 +32,7 @@ public:
 	}
 
 	T pop() {
-		if (isEmpty()) {
-			throw std::runtime_error("Empty queue!");
-		}
+		assert(!isEmpty());
 
 		QueueElement* top = head;
 
@@ -57,13 +58,28 @@ public:
 
 	// operators
 
-	//int size() const;
-	//const T& head() const; //  tête de la file
-	//const T& tail() const; // queue de la file
+	int getSize() const {
+		return this->size;
+	}
 
-	//// override operators
-	//const Queue<T>& operator = (const Queue<T>&) throw (std::bad_alloc);
-	template <typename U> friend std::ostream& operator<<(std::ostream&, const Queue<U>&);
+	const T& getHead() const {
+		assert(!isEmpty());
+		return head->data;
+	}
+	const T& getTail() const {
+		assert(!isEmpty());
+		return tail->data;
+	}
+
+	// override operators
+
+	const Queue<T>& operator = (const Queue<T>& other) {
+		this->copy(other);
+		return (*this);
+	}
+
+	template <typename U>
+	friend std::ostream& operator<<(std::ostream&, const Queue<U>&);
 
 private:
 
@@ -75,6 +91,21 @@ private:
 		T data;
 		QueueElement* next;
 	};
+
+	void clear() {
+		while (!isEmpty()) {
+			pop();
+		}
+	}
+
+	void copy(const Queue& src) {
+		clear();
+		QueueElement* curr = src.head;
+		while (curr != NULL) {
+			push(curr->data);
+			curr = curr->next;
+		}
+	}
 
 	QueueElement* head;
 	QueueElement* tail;
