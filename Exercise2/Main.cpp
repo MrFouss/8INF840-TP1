@@ -1,39 +1,42 @@
 #include <iostream>
 #include "Queue.h"
 #include <list>
+#include "EventManager.h"
+#include "Machine.h"
+#include "PistonPiece.h"
 
 using namespace std;
 
 int main() {
 
-	Queue<int> q;
-
-	for (int i = 0; i < 10; ++i) {
-		q.push(i);
-		cout << q << q.getSize() << endl;
-		cout << q.getHead() << " " << q.getTail() << endl;
+	std::list<PistonAxe> axes;
+	for (int i = 0; i < 5; ++i) {
+		axes.push_back(PistonAxe());
 	}
 
-	Queue<int> qCopy(q);
+	Queue<Machineable*> input;
+	Queue<Machineable*> output;
+	Machine m(2, 3, 0);
 
-	cout << qCopy;
-
-	for (int i = 0; i < 9; ++i) {
-		cout << q.pop();
-		cout << q << q.getSize() << endl;
-		cout << q.getHead() << " " << q.getTail() << endl;
+	for (PistonAxe& axe : axes) {
+		input.push(&axe);
 	}
 
-	qCopy = q;
+	m.setInputQueue(&input);
+	m.setOutputQueue(&output);
 
-	cout << qCopy << q;
+	cout << "in " << input << "out" << output;
 
-	q.pop();
+	EventManager& em = EventManager::getInstance();
+	m.processNext();
+	while (!input.isEmpty()) {
+		if (m.canProcessNext()) {
+			m.processNext();
+		}
+		em.triggerNextEvent(true);
+	}
 
-	qCopy = q;
-
-	cout << qCopy << q;
-
+	cout << input << output;
 
 	system("pause");
 	return 0;

@@ -1,4 +1,6 @@
-#include <stdexcept>
+#pragma once
+
+#include <iostream>
 #include <assert.h>
 
 /// <summary>
@@ -60,6 +62,12 @@ public:
 		return data;
 	}
 
+	void clear() {
+		while (!isEmpty()) {
+			pop();
+		}
+	}
+
 	// ACCESSORS
 
 	bool isEmpty() const {
@@ -104,12 +112,6 @@ private:
 	};
 
 	// UTILS
-
-	void clear() {
-		while (!isEmpty()) {
-			pop();
-		}
-	}
 
 	void copy(const Queue& src) {
 		clear();
