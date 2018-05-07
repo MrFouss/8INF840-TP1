@@ -2,8 +2,9 @@
 #include "Queue.h"
 #include <list>
 #include "EventManager.h"
-#include "Machine.h"
 #include "PistonPiece.h"
+#include "SimpleMachine.h"
+#include "MachineLink.h"
 
 using namespace std;
 
@@ -14,7 +15,18 @@ int main() {
 		axes.push_back(PistonAxe());
 	}
 
-	Queue<Machineable*> input;
+	MachineLink inLink, outlink;
+	SimpleMachine m("m1", 2, 3, 0.5);
+	m.setInputLink(&inLink);
+	m.setOutputLink(&outlink);
+
+	for (PistonAxe& axe : axes) {
+		inLink.push(&axe);
+	}
+
+	EventManager::getInstance().clear(true);
+
+	/*Queue<Machineable*> input;
 	Queue<Machineable*> output;
 	Machine m(2, 3, 0);
 
@@ -36,7 +48,7 @@ int main() {
 		em.triggerNextEvent(true);
 	}
 
-	cout << input << output;
+	cout << input << output;*/
 
 	system("pause");
 	return 0;
