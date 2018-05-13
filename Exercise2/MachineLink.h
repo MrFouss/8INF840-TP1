@@ -1,31 +1,45 @@
 #pragma once
 
 #include "Queue.h"
+#include "IMachine.h"
 
-class IMachine;
-class Machineable;
-
+template <typename T>
 class MachineLink {
 public:
-	MachineLink();
+	MachineLink():
+		queue(), inputMachine(NULL), outputMachine(NULL) {}
 
 	virtual ~MachineLink() = default;
 
-	void push(Machineable* obj);
-	Machineable* pop();
+	void push(T* obj) {
+		queue.push(obj);
+		if (outputMachine != NULL) {
+			outputMachine->onLinkUpdated();
+		}
+	}
 
-	void setInputMachine(IMachine* inputMachine);
+	T* pop() {
+		T* obj = queue.pop();
+		if (inputMachine != NULL) {
+			inputMachine->onLinkUpdated();
+		}
+		return obj;
+	}
 
-	void setOutputMachine(IMachine* outputMachine);
+	bool isEmpty() const { return queue.isEmpty(); }
 
-	int getSize() const;
+	void setInputMachine(IMachine* input) {
+		inputMachine = input;
+	}
 
-	bool isEmpty() const;
+	void setOutputMachine(IMachine* output) {
+		outputMachine = output;
+	}
 
 private:
 
 	IMachine* inputMachine;
 	IMachine* outputMachine;
-	Queue<Machineable*> objects;
+	Queue<T*> queue;
 };
 

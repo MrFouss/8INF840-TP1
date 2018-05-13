@@ -39,10 +39,10 @@
     <ClInclude Include="MachineLink.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleMachine.h">
+    <ClInclude Include="IMachine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IMachine.h">
+    <ClInclude Include="PistonPieceMachine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -65,7 +65,10 @@
     <ClCompile Include="MachineLink.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleMachine.cpp">
+    <ClCompile Include="IMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PistonPieceMachine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

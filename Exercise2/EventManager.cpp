@@ -26,7 +26,7 @@ void EventManager::triggerNextEvent(bool log) {
 	e->trigger();
 
 	if (log) {
-		std::cout << "[" << e->getTriggerTime() << "] " << *e << std::endl;
+		std::cout << "[" << e->getTriggerTime() << "] " << *e;
 	}
 
 	delete e;

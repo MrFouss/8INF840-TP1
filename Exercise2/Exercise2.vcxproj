@@ -125,21 +125,22 @@
     <ClInclude Include="EventManager.h" />
     <ClInclude Include="IMachine.h" />
     <ClInclude Include="MachineLink.h" />
+    <ClInclude Include="PistonPieceMachine.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Machineable.h" />
     <ClInclude Include="Piston.h" />
     <ClInclude Include="PistonPiece.h" />
     <ClInclude Include="PistonPieceType.h" />
-    <ClInclude Include="SimpleMachine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="IMachine.cpp" />
     <ClCompile Include="Machineable.cpp" />
     <ClCompile Include="MachineLink.cpp" />
     <ClCompile Include="Piston.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="SimpleMachine.cpp" />
+    <ClCompile Include="PistonPieceMachine.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
