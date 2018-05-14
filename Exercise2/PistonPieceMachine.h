@@ -3,7 +3,7 @@
 #include "IMachine.h"
 #include "PistonPieceType.h"
 #include "PistonPiece.h"
-#include "MachineLink.h"
+#include "MachineDataLink.h"
 
 template <PistonPieceType type>
 class PistonPieceMachine : public IMachine {
@@ -12,47 +12,59 @@ public:
 
 	PistonPieceMachine(std::string name, float workTime, float breakProbability, float repairTime) :
 		IMachine(name, workTime, breakProbability, repairTime),
-		workInProgress(NULL),
-		inputLink(NULL),
-		outputLink(NULL) {}
+		workInProgress(NULL) {}
 
 	virtual ~PistonPieceMachine() = default;
 
-	void linkInput(MachineLink<Piece>* input) {
-		assert(input != NULL);
-		inputLink = input;
-		input->setOutputMachine(this);
+	void linkOutput(MachineDataLink<Piece>* output) {
+		IMachine::linkOutput(outputLinkName, output);
 	}
 
-	void linkOutput(MachineLink<Piece>* output) {
-		assert(output != NULL);
-		outputLink = output;
-		output->setInputMachine(this);
+	void linkInput(MachineDataLink<Piece>* input) {
+		IMachine::linkInput(inputLinkName, input);
 	}
 
 protected:
 	virtual bool canStartNextWork() { 
-		assert(inputLink != NULL);
-		return !inputLink->isEmpty() && workInProgress == NULL; 
+		assert(areLinksConnected());
+		return !getInputLink()->isEmpty() && workInProgress == NULL; 
 	}
 
 	virtual void startNextWork() {
 		assert(canStartNextWork());
-		workInProgress = inputLink->pop();
+		workInProgress = getInputLink()->pop();
 	}
 
 	virtual void finishCurrentWork() {
-		assert(outputLink != NULL && workInProgress != NULL);
+		assert(areLinksConnected() && workInProgress != NULL);
 		workInProgress->setMachined();
-		outputLink->push(workInProgress);
+		getOutputLink()->push(workInProgress);
 		workInProgress = NULL;
 	}
 
 private:
 
+	MachineDataLink<Piece>* getOutputLink() {
+		return (MachineDataLink<Piece>*)IMachine::getOutputLink(outputLinkName);
+	}
+
+	MachineDataLink<Piece>* getInputLink() {
+		return (MachineDataLink<Piece>*)IMachine::getInputLink(inputLinkName);
+	}
+
+	bool areLinksConnected() {
+		return hasInputLink(inputLinkName)
+			&& hasOutputLink(outputLinkName);
+	}
+
 	Piece* workInProgress;
 
-	MachineLink<Piece>* inputLink;
-	MachineLink<Piece>* outputLink;
+	static const std::string inputLinkName;
+	static const std::string outputLinkName;
 };
 
+template <PistonPieceType type>
+const std::string PistonPieceMachine<type>::inputLinkName = "PistonPieceMachineInput";
+
+template <PistonPieceType type>
+const std::string PistonPieceMachine<type>::outputLinkName = "PistonPieceMachineOutput";

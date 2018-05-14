@@ -1,32 +1,19 @@
 #pragma once
 
-#include "Queue.h"
-#include "IMachine.h"
+#include <iostream>
 
-template <typename T>
+class IMachine;
+
 class MachineLink {
 public:
 	MachineLink():
-		queue(), inputMachine(NULL), outputMachine(NULL) {}
+		inputMachine(NULL), outputMachine(NULL) {}
 
 	virtual ~MachineLink() = default;
 
-	void push(T* obj) {
-		queue.push(obj);
-		if (outputMachine != NULL) {
-			outputMachine->onLinkUpdated();
-		}
-	}
+protected:
 
-	T* pop() {
-		T* obj = queue.pop();
-		if (inputMachine != NULL) {
-			inputMachine->onLinkUpdated();
-		}
-		return obj;
-	}
-
-	bool isEmpty() const { return queue.isEmpty(); }
+	friend IMachine;
 
 	void setInputMachine(IMachine* input) {
 		inputMachine = input;
@@ -36,10 +23,7 @@ public:
 		outputMachine = output;
 	}
 
-private:
-
 	IMachine* inputMachine;
 	IMachine* outputMachine;
-	Queue<T*> queue;
 };
 

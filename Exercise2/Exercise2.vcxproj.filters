@@ -45,6 +45,12 @@
     <ClInclude Include="PistonPieceMachine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SortMachine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MachineDataLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -69,6 +75,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PistonPieceMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SortMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MachineDataLink.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

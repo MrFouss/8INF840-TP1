@@ -12,8 +12,8 @@ using namespace std;
 int main() {
 	srand(time(NULL));
 
-	PistonPieceMachine<PistonPieceType::AXE> axeMachine("AxeMachine", 2, 1, 4);
-	MachineLink<PistonAxe> inputLink, outputLink;
+	PistonPieceMachine<PistonPieceType::AXE> axeMachine("AxeMachine", 2, 0.1, 4);
+	MachineDataLink<PistonAxe> inputLink, outputLink;
 	axeMachine.linkInput(&inputLink);
 	axeMachine.linkOutput(&outputLink);
 	list<PistonAxe> axes;
