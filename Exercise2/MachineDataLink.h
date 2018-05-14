@@ -29,6 +29,8 @@ public:
 
 	bool isEmpty() const { return queue.isEmpty(); }
 
+	int getSize() const { return queue.getSize(); }
+
 private:
 	Queue<T*> queue;
 };

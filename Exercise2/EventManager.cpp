@@ -18,23 +18,18 @@ void EventManager::addEvent(Event* event) {
 	eventList.push(event);
 }
 
-void EventManager::triggerNextEvent(bool log) {
+void EventManager::triggerNextEvent() {
 	assert(!isEmpty());
 	Event* e = eventList.top();
 	eventList.pop();
 	time = e->getTriggerTime();
 	e->trigger();
-
-	if (log) {
-		std::cout << "[" << e->getTriggerTime() << "] " << *e;
-	}
-
 	delete e;
 }
 
-void EventManager::clear(bool log) {
+void EventManager::clear() {
 	while (!isEmpty()) {
-		triggerNextEvent(log);
+		triggerNextEvent();
 	}
 }
 

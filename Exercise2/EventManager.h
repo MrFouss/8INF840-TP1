@@ -11,8 +11,8 @@ public:
 	~EventManager();
 
 	void addEvent(Event* event);
-	void triggerNextEvent(bool log = false);
-	void clear(bool log = false);
+	void triggerNextEvent();
+	void clear();
 
 	bool isEmpty() const;
 	float getTime() const;

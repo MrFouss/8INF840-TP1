@@ -4,6 +4,7 @@
 #include "PistonPieceType.h"
 #include "PistonPiece.h"
 #include "MachineDataLink.h"
+#include "LogEvent.h"
 
 template <PistonPieceType type>
 class PistonPieceMachine : public IMachine {
@@ -40,6 +41,8 @@ protected:
 		workInProgress->setMachined();
 		getOutputLink()->push(workInProgress);
 		workInProgress = NULL;
+		EventManager& em = EventManager::getInstance();
+		em.addEvent(new LogEvent(em.getTime(), getName() + " finished processing a piece"));
 	}
 
 private:

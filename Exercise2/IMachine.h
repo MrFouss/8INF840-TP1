@@ -73,10 +73,6 @@ private:
 			machine->repairMachine();
 		}
 
-		virtual std::string log() const {
-			return "Repaired machine " + machine->getName() + '\n';
-		}
-
 	private:
 		IMachine* machine;
 	};
@@ -90,10 +86,6 @@ private:
 
 		virtual void trigger() const {
 			machine->endWorkingCycle();
-		}
-
-		virtual std::string log() const {
-			return "Finished work on machine " + machine->getName() + '\n';
 		}
 
 	private:

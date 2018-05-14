@@ -2,7 +2,8 @@
 #include "IMachine.h"
 #include "MachineDataLink.h"
 #include "PistonPiece.h"
-
+#include "EventManager.h"
+#include "LogEvent.h"
 #include <iostream>
 
 class SortMachine : public IMachine {
@@ -42,16 +43,25 @@ protected:
 
 	virtual void finishCurrentWork() {
 		assert(areLinksConnected() && workInProgress != NULL);
-		if ((PistonAxe*)workInProgress != NULL) {
-			getAxeOutputLink()->push((PistonAxe*)workInProgress);
-		} else if ((PistonJupe*)workInProgress != NULL) {
-			getJupeOutputLink()->push((PistonJupe*)workInProgress);
-		} else if ((PistonTete*)workInProgress != NULL) {
-			getTeteOutputLink()->push((PistonTete*)workInProgress);
+
+		std::string message = getName() + " sorted a ";
+
+		if (dynamic_cast<PistonAxe*>(workInProgress) != NULL) {
+			getAxeOutputLink()->push(dynamic_cast<PistonAxe*>(workInProgress));
+			message += "axe";
+		} else if (dynamic_cast<PistonJupe*>(workInProgress) != NULL) {
+			getJupeOutputLink()->push(dynamic_cast<PistonJupe*>(workInProgress));
+			message += "jupe";
+		} else if (dynamic_cast<PistonTete*>(workInProgress) != NULL) {
+			getTeteOutputLink()->push(dynamic_cast<PistonTete*>(workInProgress));
+			message += "tete";
 		} else {
 			std::cerr << getName() << " : Unrecognized type" << std::endl;
 			std::exit(1);
 		}
+
+		EventManager& em = EventManager::getInstance();
+		em.addEvent(new LogEvent(em.getTime(), message));
 		workInProgress = NULL;
 	}
 

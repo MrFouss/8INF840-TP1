@@ -2,6 +2,7 @@
 
 #include "EventManager.h"
 #include <assert.h>
+#include "LogEvent.h"
 
 void IMachine::startWorkingCycle() {
 	if (!isBroken && !isWorking && canStartNextWork()) {
@@ -9,6 +10,7 @@ void IMachine::startWorkingCycle() {
 		if (breakProbability > (float)std::rand() / (RAND_MAX - 1)) {
 			isBroken = true;
 			em.addEvent(new MachineIsRepairedEvent(em.getTime() + repairTime, this));
+			em.addEvent(new LogEvent(em.getTime(), getName() + " broke"));
 		}
 		else {
 			isWorking = true; 
@@ -25,6 +27,7 @@ void IMachine::repairMachine() {
 	startNextWork();
 	EventManager& em = EventManager::getInstance();
 	em.addEvent(new MachineFinishWorkEvent(em.getTime() + workTime, this));
+	em.addEvent(new LogEvent(em.getTime(), getName() + " was repaired"));
 }
 
 void IMachine::endWorkingCycle() {
