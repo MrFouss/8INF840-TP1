@@ -7,20 +7,21 @@ using namespace std;
 class Dictionnary
 {
 public:
-	Dictionnary();
+	Dictionnary() = default;
 	Dictionnary(const Dictionnary& dict);
 	~Dictionnary();
 	const Dictionnary& operator= (const Dictionnary& dict);
 
-	void addWord(std::string word);
-	void removeWord(std::string word);
+	void addWord(const string word);
+	void removeWord(const string word);
 	
-	void displayDictionnary();
-	bool isContainingWord(std::string word);
+	void displayDictionnary() const;
+	bool isContainingWord(const string word) const;
 
-	bool isEmpty();
+	bool isEmpty() const;
+	void erase();
 
-	friend std::ostream& operator<< (std::ostream& stream, const Dictionnary& dict);
+	friend ostream& operator<< (ostream& stream, const Dictionnary& dict);
 
 private:
 	class Node
@@ -28,12 +29,17 @@ private:
 	public:
 		char letter;
 		bool isEndOfWord;
-		Node* nextLetter;
-		Node* alternativeLetter;
+		Node* nextLetter = 0;
+		Node* alternativeLetter = 0;
 		
-		Node(char letter, bool isEndOfWord) : letter(letter), isEndOfWord(isEndOfWord), nextLetter(0), alternativeLetter(0) {}
+		Node(char letter, bool isEndOfWord) : letter(letter), isEndOfWord(isEndOfWord) {}
+		Node(const Node& node) : letter(node.letter), isEndOfWord(node.isEndOfWord) {}
+
+		~Node();
 	};
 
-	Node* root;
+	Node* root = 0;
+
+	Node* copyDictionnary(const Dictionnary& dict);
 };
 
