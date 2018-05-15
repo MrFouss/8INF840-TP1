@@ -11,7 +11,7 @@
 using namespace std;
 
 int main() {
-	srand(time(NULL));
+	srand(time(0));
 
 	// test piston machine
 
@@ -34,10 +34,10 @@ int main() {
 	MachineDataLink<PistonAxe> sortOutputAxe;
 	MachineDataLink<PistonJupe> sortOutputJupe;
 	MachineDataLink<PistonTete> sortOutputTete;
-	sortMachine.linkAxeOutput(&sortOutputAxe);
-	sortMachine.linkJupeOutput(&sortOutputJupe);
-	sortMachine.linkTeteOutput(&sortOutputTete);
-	sortMachine.linkInput(&sortInput);
+	sortMachine.linkAxeOutput(sortOutputAxe);
+	sortMachine.linkJupeOutput(sortOutputJupe);
+	sortMachine.linkTeteOutput(sortOutputTete);
+	sortMachine.linkInput(sortInput);
 	list<Machineable*> unknownObjects;
 	for (int i = 0; i < 100; ++i) {
 		switch (rand() % 3) {
@@ -51,7 +51,7 @@ int main() {
 			unknownObjects.push_back(new PistonTete());
 			break;
 		}
-		sortInput.push(unknownObjects.back());
+		sortInput.push(*unknownObjects.back());
 	}
 
 
@@ -65,8 +65,8 @@ int main() {
 	// test linking with a piston piece machine
 	PistonPieceMachine<PistonPieceType::TETE> teteMachine("TeteMachine", 2, 0, 0);
 	MachineDataLink<PistonTete> pieceMachineOutputTete;
-	teteMachine.linkInput(&sortOutputTete);
-	teteMachine.linkOutput(&pieceMachineOutputTete);
+	teteMachine.linkInput(sortOutputTete);
+	teteMachine.linkOutput(pieceMachineOutputTete);
 	
 	teteMachine.onLinkUpdated();
 	EventManager::getInstance().clear();

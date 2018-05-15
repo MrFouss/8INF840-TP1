@@ -12,15 +12,15 @@ public:
 
 	virtual ~MachineDataLink() = default;
 
-	void push(T* obj) {
+	void push(T& obj) {
 		queue.push(obj);
 		if (outputMachine != NULL) {
 			outputMachine->onLinkUpdated();
 		}
 	}
 
-	T* pop() {
-		T* obj = queue.pop();
+	T& pop() {
+		T& obj = queue.pop();
 		if (inputMachine != NULL) {
 			inputMachine->onLinkUpdated();
 		}
@@ -32,6 +32,6 @@ public:
 	int getSize() const { return queue.getSize(); }
 
 private:
-	Queue<T*> queue;
+	Queue<T&> queue;
 };
 

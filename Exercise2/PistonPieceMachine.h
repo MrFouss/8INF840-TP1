@@ -17,29 +17,29 @@ public:
 
 	virtual ~PistonPieceMachine() = default;
 
-	void linkOutput(MachineDataLink<Piece>* output) {
+	void linkOutput(MachineDataLink<Piece>& output) {
 		IMachine::linkOutput(outputLinkName, output);
 	}
 
-	void linkInput(MachineDataLink<Piece>* input) {
+	void linkInput(MachineDataLink<Piece>& input) {
 		IMachine::linkInput(inputLinkName, input);
 	}
 
 protected:
 	virtual bool canStartNextWork() { 
 		assert(areLinksConnected());
-		return !getInputLink()->isEmpty() && workInProgress == NULL; 
+		return !getInputLink().isEmpty() && workInProgress == NULL; 
 	}
 
 	virtual void startNextWork() {
 		assert(canStartNextWork());
-		workInProgress = getInputLink()->pop();
+		workInProgress = &getInputLink().pop();
 	}
 
 	virtual void finishCurrentWork() {
 		assert(areLinksConnected() && workInProgress != NULL);
 		workInProgress->setMachined();
-		getOutputLink()->push(workInProgress);
+		getOutputLink().push(*workInProgress);
 		workInProgress = NULL;
 		EventManager& em = EventManager::getInstance();
 		em.addEvent(new LogEvent(em.getTime(), getName() + " finished processing a piece"));
@@ -47,12 +47,12 @@ protected:
 
 private:
 
-	MachineDataLink<Piece>* getOutputLink() {
-		return (MachineDataLink<Piece>*)IMachine::getOutputLink(outputLinkName);
+	MachineDataLink<Piece>& getOutputLink() {
+		return IMachine::getOutputLink<Piece>(outputLinkName);
 	}
 
-	MachineDataLink<Piece>* getInputLink() {
-		return (MachineDataLink<Piece>*)IMachine::getInputLink(inputLinkName);
+	MachineDataLink<Piece>& getInputLink() {
+		return IMachine::getInputLink<Piece>(inputLinkName);
 	}
 
 	bool areLinksConnected() {

@@ -1,17 +1,16 @@
 #pragma once
 
 #include "PistonPiece.h"
-#include "Machineable.h"
 
-class Piston : public Machineable {
+class Piston {
 public:
-	Piston(const PistonTete&, const PistonJupe&, const PistonAxe&);
+	Piston(const PistonTete * tete, const PistonJupe * jupe, const PistonAxe * axe);
 	virtual ~Piston() = default;
 
 private:
 
-	const PistonTete& tete;
-	const PistonJupe& jupe;
-	const PistonAxe& axe;
+	const PistonTete* tete;
+	const PistonJupe* jupe;
+	const PistonAxe* axe;
 };
 

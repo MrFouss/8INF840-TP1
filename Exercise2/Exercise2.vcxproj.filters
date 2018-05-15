@@ -13,46 +13,58 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\event">
+      <UniqueIdentifier>{47646035-2160-4e0e-a23a-c40161919bb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\piston">
+      <UniqueIdentifier>{3e711e5a-bd76-4cfb-822c-c9cc9c1782de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\machine">
+      <UniqueIdentifier>{6ecceaa9-e18d-4258-8a8e-d621742aa588}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Queue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PistonPieceType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Machineable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Piston.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PistonPiece.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Event.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\event</Filter>
     </ClInclude>
     <ClInclude Include="EventManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MachineLink.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IMachine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PistonPieceMachine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SortMachine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MachineDataLink.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\event</Filter>
     </ClInclude>
     <ClInclude Include="LogEvent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\event</Filter>
+    </ClInclude>
+    <ClInclude Include="Piston.h">
+      <Filter>Header Files\piston</Filter>
+    </ClInclude>
+    <ClInclude Include="PistonPiece.h">
+      <Filter>Header Files\piston</Filter>
+    </ClInclude>
+    <ClInclude Include="PistonPieceType.h">
+      <Filter>Header Files\piston</Filter>
+    </ClInclude>
+    <ClInclude Include="IMachine.h">
+      <Filter>Header Files\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="MachineDataLink.h">
+      <Filter>Header Files\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="Machineable.h">
+      <Filter>Header Files\piston</Filter>
+    </ClInclude>
+    <ClInclude Include="MachineLink.h">
+      <Filter>Header Files\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="PistonPieceMachine.h">
+      <Filter>Header Files\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="SortMachine.h">
+      <Filter>Header Files\machine</Filter>
+    </ClInclude>
+    <ClInclude Include="PistonAssemblyMachine.h">
+      <Filter>Header Files\machine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +99,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LogEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PistonAssemblyMachine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

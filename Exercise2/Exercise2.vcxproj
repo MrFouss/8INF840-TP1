@@ -127,6 +127,7 @@
     <ClInclude Include="LogEvent.h" />
     <ClInclude Include="MachineDataLink.h" />
     <ClInclude Include="MachineLink.h" />
+    <ClInclude Include="PistonAssemblyMachine.h" />
     <ClInclude Include="PistonPieceMachine.h" />
     <ClInclude Include="Queue.h" />
     <ClInclude Include="Machineable.h" />
@@ -145,6 +146,7 @@
     <ClCompile Include="MachineLink.cpp" />
     <ClCompile Include="Piston.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PistonAssemblyMachine.cpp" />
     <ClCompile Include="PistonPieceMachine.cpp" />
     <ClCompile Include="SortMachine.cpp" />
   </ItemGroup>

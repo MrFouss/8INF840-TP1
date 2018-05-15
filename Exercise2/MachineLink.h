@@ -7,7 +7,7 @@ class IMachine;
 class MachineLink {
 public:
 	MachineLink():
-		inputMachine(NULL), outputMachine(NULL) {}
+		inputMachine(0), outputMachine(0) {}
 
 	virtual ~MachineLink() = default;
 

@@ -4,6 +4,38 @@
 #include <assert.h>
 #include "LogEvent.h"
 
+#include "MachineDataLink.h"
+#include "MachineLink.h"
+
+IMachine::IMachine(std::string name, float workTime, float breakProbability, float repairTime) :
+	name(name),
+	workTime(workTime),
+	breakProbability(breakProbability),
+	repairTime(repairTime),
+	isBroken(false),
+	isWorking(false),
+	inputLinks(),
+	outputLinks() {
+}
+
+void IMachine::linkInput(std::string name, MachineLink& link) {
+	inputLinks[name] = &link;
+	link.setOutputMachine(this);
+}
+
+void IMachine::linkOutput(std::string name, MachineLink& link) {
+	outputLinks[name] = &link;
+	link.setInputMachine(this);
+}
+
+bool IMachine::hasInputLink(std::string name) {
+	return inputLinks.find(name) != inputLinks.end();
+}
+
+bool IMachine::hasOutputLink(std::string name) {
+	return outputLinks.find(name) != outputLinks.end();
+}
+
 void IMachine::startWorkingCycle() {
 	if (!isBroken && !isWorking && canStartNextWork()) {
 		EventManager& em = EventManager::getInstance();
@@ -34,5 +66,6 @@ void IMachine::endWorkingCycle() {
 	assert(!isBroken && isWorking);
 	isWorking = false;
 	finishCurrentWork();
+	// TODO send an event instead
 	startWorkingCycle();
 }
