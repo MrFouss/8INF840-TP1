@@ -15,8 +15,12 @@ Dictionnary::~Dictionnary()
 
 const Dictionnary& Dictionnary::operator=(const Dictionnary& dict)
 {
-	erase();
-	root = copyDictionnary(dict);
+	if (this != &dict)
+	{
+		erase();
+		root = copyDictionnary(dict);
+	}
+	return *this;
 }
 
 void Dictionnary::addWord(const string word)
@@ -42,7 +46,7 @@ bool Dictionnary::isContainingWord(const string word) const
 	}
 
 	Node* iterator = root;
-	Node* lastIterator;
+	Node* lastIterator = iterator;
 
 	for (char letter : word)
 	{
@@ -141,7 +145,7 @@ Dictionnary::Node* Dictionnary::copyDictionnary(const Dictionnary& dict)
 
 ostream& operator<<(ostream& stream, const Dictionnary& dict)
 {
-	// TODO: insert return statement here
+	return stream;
 }
 
 Dictionnary::Node::~Node()
