@@ -3,12 +3,9 @@
 #include <iostream>
 #include <assert.h>
 
-/// <summary>
-/// A FIFO (First In First Out) data structure implementation
-/// </summary>
-/// <remarks>
-/// (pop)head -> ... -> ... -> tail(push)
-/// </remarks>
+// A FIFO (First In First Out) data structure implementation
+// (pop)head -> ... -> ... -> tail(push)
+
 template <typename T>
 class Queue {
 
@@ -31,7 +28,8 @@ public:
 
 	// MODIFIERS
 
-	void push(const T & data) {
+	// a copy of data is made to store it in the queue
+	void push(const T && data) {
 		QueueElement* newElem = new QueueElement(data);
 		if (isEmpty()) {
 			head = newElem;
@@ -99,9 +97,6 @@ public:
 
 private:
 
-	/// <summary>
-	/// An element of the queue
-	/// </summary>
 	class QueueElement {
 	public:
 		QueueElement(const T& data, QueueElement* next = NULL) : data(data), next(next) {}

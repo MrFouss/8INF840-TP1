@@ -1,21 +1,34 @@
 #include "SortMachine.h"
 
+#include "MachineDataLink.h"
+#include "EventManager.h"
+#include "LogEvent.h"
+#include <iostream>
+#include <string>
 
 const std::string SortMachine::jupeOutputName = "SortMachineJupeOutput";
 const std::string SortMachine::axeOutputName = "SortMachineAxeOutput";
 const std::string SortMachine::teteOutputName = "SortMachineTeteOutput";
 const std::string SortMachine::inputName = "SortMachineInput";
 
-bool SortMachine::canStartNextWork() {
+void SortMachine::linkJupeOutput(MachineDataLink<PistonJupe>& output) { linkOutput(jupeOutputName, output); }
+
+void SortMachine::linkAxeOutput(MachineDataLink<PistonAxe>& output) { linkOutput(axeOutputName, output); }
+
+void SortMachine::linkTeteOutput(MachineDataLink<PistonTete>& output) { linkOutput(teteOutputName, output); }
+
+void SortMachine::linkInput(MachineDataLink<Machineable>& input) { IMachine::linkInput(inputName, input); }
+
+bool SortMachine::canStartNextJob() {
 	return areLinksConnected() && !getInputLink().isEmpty() && workInProgress == NULL;
 }
 
-void SortMachine::startNextWork() {
-	assert(canStartNextWork());
+void SortMachine::startNextJob() {
+	assert(canStartNextJob());
 	workInProgress = &getInputLink().pop();
 }
 
-void SortMachine::finishCurrentWork() {
+void SortMachine::finishCurrentJob() {
 	assert(areLinksConnected() && workInProgress != NULL);
 
 	std::string message = getName() + " sorted a ";
@@ -38,23 +51,23 @@ void SortMachine::finishCurrentWork() {
 	}
 
 	EventManager& em = EventManager::getInstance();
-	em.addEvent(new LogEvent(em.getTime(), message));
+	em.addEvent(LogEvent(em.getTime(), message));
 	workInProgress = NULL;
 }
 
-inline MachineDataLink<PistonTete>& SortMachine::getTeteOutputLink() {
+MachineDataLink<PistonTete>& SortMachine::getTeteOutputLink() {
 	return getOutputLink<PistonTete>(teteOutputName);
 }
 
-inline MachineDataLink<PistonJupe>& SortMachine::getJupeOutputLink() {
+MachineDataLink<PistonJupe>& SortMachine::getJupeOutputLink() {
 	return getOutputLink<PistonJupe>(jupeOutputName);
 }
 
-inline MachineDataLink<PistonAxe>& SortMachine::getAxeOutputLink() {
+MachineDataLink<PistonAxe>& SortMachine::getAxeOutputLink() {
 	return getOutputLink<PistonAxe>(axeOutputName);
 }
 
-inline MachineDataLink<Machineable>& SortMachine::getInputLink() {
+MachineDataLink<Machineable>& SortMachine::getInputLink() {
 	return IMachine::getInputLink<Machineable>(inputName);
 }
 

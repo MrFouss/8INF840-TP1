@@ -2,16 +2,22 @@
 
 #include "Event.h"
 #include <iostream>
+#include <string>
 
 class LogEvent : public Event {
 public:
+
+	LogEvent(const LogEvent& e) = default;
 	LogEvent(float triggerTime, std::string message) :
 		Event(triggerTime), message(message) {}
-
 	virtual ~LogEvent() = default;
 
-	virtual void trigger() const {
+	void trigger() const override {
 		std::cout << "[" << getTriggerTime() << "] " << message << std::endl;
+	}
+
+	Event* clone() const override {
+		return new LogEvent(*this);
 	}
 
 private:

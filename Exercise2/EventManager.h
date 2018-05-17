@@ -9,8 +9,9 @@ public:
 	static EventManager& getInstance();
 
 	~EventManager();
+	
+	void addEvent(Event&& event);
 
-	void addEvent(Event* event);
 	void triggerNextEvent();
 	void clear();
 
@@ -24,10 +25,9 @@ private:
 
 	class Posteriority {
 	public:
-		bool operator()(const Event * a, const Event * b);
+		bool operator()(const Event* a, const Event* b);
 	};
 
 	std::priority_queue<Event*, std::vector<Event*>, Posteriority> eventList;
 	float time;
 };
-

@@ -15,15 +15,12 @@ public:
 	void push(T& obj) {
 		queue.push(obj);
 		if (outputMachine != NULL) {
-			outputMachine->onLinkUpdated();
+			outputMachine->onInputLinkUpdated();
 		}
 	}
 
 	T& pop() {
 		T& obj = queue.pop();
-		if (inputMachine != NULL) {
-			inputMachine->onLinkUpdated();
-		}
 		return obj;
 	}
 

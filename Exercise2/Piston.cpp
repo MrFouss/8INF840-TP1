@@ -2,10 +2,10 @@
 
 #include <assert.h>
 
-Piston::Piston(const PistonTete * tete, const PistonJupe * jupe, const PistonAxe * axe) :
+Piston::Piston(const PistonTete& tete, const PistonJupe& jupe, const PistonAxe& axe) :
 	tete(tete),
 	jupe(jupe),
 	axe(axe)
 {
-	assert(tete->isMachined() && jupe->isMachined() && axe->isMachined());
+	assert(tete.isMachined() && jupe.isMachined() && axe.isMachined());
 }

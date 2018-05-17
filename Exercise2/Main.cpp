@@ -11,6 +11,7 @@
 using namespace std;
 
 int main() {
+
 	srand(time(0));
 
 	// test piston machine
@@ -24,7 +25,7 @@ int main() {
 	//	axes.push_back(PistonAxe());
 	//	inputLink.push(&axes.back());
 	//}
-	//axeMachine.onLinkUpdated();
+	//axeMachine.onInputLinkUpdated();
 	//EventManager::getInstance().clear();
 
 	// test sort machine
@@ -54,8 +55,7 @@ int main() {
 		sortInput.push(*unknownObjects.back());
 	}
 
-
-	//sortMachine.onLinkUpdated();
+	//sortMachine.onInputLinkUpdated();
 	//EventManager::getInstance().clear();
 
 	//cout << "axes : " << sortOutputAxe.getSize() << endl;
@@ -68,7 +68,7 @@ int main() {
 	teteMachine.linkInput(sortOutputTete);
 	teteMachine.linkOutput(pieceMachineOutputTete);
 	
-	teteMachine.onLinkUpdated();
+	teteMachine.onInputLinkUpdated();
 	EventManager::getInstance().clear();
 
 	cout << "tete in : " << sortOutputTete.getSize() << endl;

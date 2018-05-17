@@ -15,23 +15,23 @@ inline void PistonAssemblyMachine::linkTeteInput(MachineDataLink<PistonTete>& in
 
 inline void PistonAssemblyMachine::linkOutput(MachineDataLink<Piston>& output) { IMachine::linkOutput(outputName, output); }
 
-bool PistonAssemblyMachine::canStartNextWork() {
+bool PistonAssemblyMachine::canStartNextJob() {
 	return areLinksConnected() 
 		&& !getTeteInputLink().isEmpty() 
 		&& !getAxeInputLink().isEmpty() 
 		&& !getJupeInputLink().isEmpty();
 }
 
-void PistonAssemblyMachine::startNextWork() {
-	assert(canStartNextWork());
+void PistonAssemblyMachine::startNextJob() {
+	assert(canStartNextJob());
 	jupeInProgress = &getJupeInputLink().pop();
 	teteInProgress = &getTeteInputLink().pop();
 	axeInProgress = &getAxeInputLink().pop();
 }
 
-void PistonAssemblyMachine::finishCurrentWork() {
+void PistonAssemblyMachine::finishCurrentJob() {
 	//assert(areLinksConnected() && jupeInProgress != 0 && teteInProgress != 0 && axeInProgress != 0);
-	//Piston* piston = new Piston(teteInProgress, jupeInProgress, axeInProgress);
+	//Piston piston = new Piston(teteInProgress, jupeInProgress, axeInProgress);
 	//teteInProgress = 0;
 	//jupeInProgress = 0;
 	//axeInProgress = 0;

@@ -13,9 +13,9 @@ EventManager::~EventManager() {
 	clear();
 }
 
-void EventManager::addEvent(Event* event) {
-	assert(event->getTriggerTime() >= time);
-	eventList.push(event);
+void EventManager::addEvent(Event && event) {
+	assert(event.getTriggerTime() >= time);
+	eventList.push(event.clone());
 }
 
 void EventManager::triggerNextEvent() {

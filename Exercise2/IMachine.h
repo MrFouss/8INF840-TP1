@@ -1,13 +1,21 @@
 #pragma once
 
 #include <map>
-#include <cassert>
-#include "Event.h"
-#include "MachineLink.h"
+
+#include <assert.h>
+
+#include "MachineStartWorkEvent.h"
+#include "MachineFinishWorkEvent.h"
+#include "MachineIsRepairedEvent.h"
 
 template <typename T>
 class MachineDataLink;
 
+class MachineLink;
+
+// describes the behaviour of a machine that processes objects from input links and put the results on the output links
+// the machine has a probability to break and takes a certain time be repaired
+// the precise task of the machine must be implemented in the derived classes
 class IMachine {
 public:
 
@@ -16,63 +24,51 @@ public:
 
 	std::string getName() { return name; }
 
-	void onLinkUpdated() { startWorkingCycle(); }
+	// notify this machine that one of its input links' has new data available
+	void onInputLinkUpdated();
 
 protected:
 
-	virtual bool canStartNextWork() = 0;
-	virtual void startNextWork() = 0;
-	virtual void finishCurrentWork() = 0;
+	// JOB DESCRIPTION
 
+	// inheriting classes must implement these functions to actually describe the machine task
+	virtual bool canStartNextJob() = 0;
+	virtual void startNextJob() = 0;
+	virtual void finishCurrentJob() = 0;
+
+	// LINKS
+	// giving public access to links is up tu derived classes
+
+	// setup this machine and the given link to be connected
 	void linkInput(std::string name, MachineLink& link);
 	void linkOutput(std::string name, MachineLink& link);
 	
+	// check weather a link exists
 	bool hasInputLink(std::string name);
 	bool hasOutputLink(std::string name);
 
+	// give access to a link and dynamically cast it to the desired type
+	// the function fails if no link is associated with the given name
 	template <class T>
-	MachineDataLink<T>& getInputLink(const std::string name) {
-		assert(hasInputLink(name));
-		return dynamic_cast<MachineDataLink<T>&>(*inputLinks[name]);
-	}
-
+	MachineDataLink<T>& getInputLink(const std::string name);
 	template <class T>
-	MachineDataLink<T>& getOutputLink(const std::string name) {
-		assert(hasOutputLink(name));
-		return dynamic_cast<MachineDataLink<T>&>(*outputLinks[name]);
-	}
+	MachineDataLink<T>& getOutputLink(const std::string name);
 
 private:
 
-	class MachineIsRepairedEvent : public Event {
-	public:
-		MachineIsRepairedEvent(float triggerTime, IMachine* machine) :
-			Event(triggerTime), machine(machine) {}
+	// WORKING CYCLE
+	// a cycle is composed of the execution of a job, and occasionnaly the repair of the machine
 
-		virtual ~MachineIsRepairedEvent() = default;
-
-		virtual void trigger() const { machine->repairMachine();}
-
-	private:
-		IMachine* machine;
-	};
-
-	class MachineFinishWorkEvent : public Event {
-	public:
-		MachineFinishWorkEvent(float triggerTime, IMachine* machine) :
-			Event(triggerTime), machine(machine) {}
-
-		virtual ~MachineFinishWorkEvent() = default;
-
-		virtual void trigger() const { machine->endWorkingCycle(); }
-
-	private:
-		IMachine* machine;
-	};
+	// give access to certain events that manage the machine's work cycle
+	friend MachineIsRepairedEvent;
+	friend MachineFinishWorkEvent;
+	friend MachineStartWorkEvent;
 
 	void startWorkingCycle();
 	void repairMachine();
 	void endWorkingCycle();
+
+	// FIELDS
 
 	std::string name;
 	float workTime;
@@ -81,7 +77,19 @@ private:
 	bool isBroken;
 	bool isWorking;
 
+	// input and output links are identified by their name
 	std::map<std::string, MachineLink*> inputLinks;
 	std::map<std::string, MachineLink*> outputLinks;
 };
 
+template<class T>
+MachineDataLink<T>& IMachine::getInputLink(const std::string name) {
+	assert(hasInputLink(name));
+	return dynamic_cast<MachineDataLink<T>&>(*inputLinks[name]);
+}
+
+template<class T>
+MachineDataLink<T>& IMachine::getOutputLink(const std::string name) {
+	assert(hasOutputLink(name));
+	return dynamic_cast<MachineDataLink<T>&>(*outputLinks[name]);
+}

@@ -1,19 +1,18 @@
 #pragma once
 
-#include <ostream>
-#include <string>
-
 class Event
 {
 public:
-	Event(const Event& other);
-	Event(float triggerTime);
-
+	Event(float triggerTime) : triggerTime(triggerTime) {}
+	Event(const Event& e) = default;
 	virtual ~Event() = default;
 
 	virtual void trigger() const = 0;
+	virtual Event* clone() const = 0;
 
-	float getTriggerTime() const;
+	float getTriggerTime() const {
+		return triggerTime;
+	}
 
 private:
 	

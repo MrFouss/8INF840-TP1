@@ -1,14 +1,16 @@
 #pragma once
 
 #include "IMachine.h"
-#include "PistonPieceType.h"
+
 #include "PistonPiece.h"
 #include "MachineDataLink.h"
 #include "LogEvent.h"
 
+// a machine that processes piston pieces (set them as "machined")
 template <PistonPieceType type>
 class PistonPieceMachine : public IMachine {
 public:
+	// the piece type this machine processes
 	typedef PistonPiece<type> Piece;
 
 	PistonPieceMachine(std::string name, float workTime, float breakProbability, float repairTime) :
@@ -26,23 +28,23 @@ public:
 	}
 
 protected:
-	virtual bool canStartNextWork() { 
+	bool canStartNextJob() override { 
 		assert(areLinksConnected());
 		return !getInputLink().isEmpty() && workInProgress == NULL; 
 	}
 
-	virtual void startNextWork() {
-		assert(canStartNextWork());
+	void startNextJob() override {
+		assert(canStartNextJob());
 		workInProgress = &getInputLink().pop();
 	}
 
-	virtual void finishCurrentWork() {
+	void finishCurrentJob() override {
 		assert(areLinksConnected() && workInProgress != NULL);
 		workInProgress->setMachined();
 		getOutputLink().push(*workInProgress);
 		workInProgress = NULL;
 		EventManager& em = EventManager::getInstance();
-		em.addEvent(new LogEvent(em.getTime(), getName() + " finished processing a piece"));
+		em.addEvent(LogEvent(em.getTime(), getName() + " finished processing a piece"));
 	}
 
 private:
@@ -60,6 +62,7 @@ private:
 			&& hasOutputLink(outputLinkName);
 	}
 
+	// the piece beeing processed
 	Piece* workInProgress;
 
 	static const std::string inputLinkName;

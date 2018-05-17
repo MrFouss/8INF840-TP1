@@ -1,7 +1,8 @@
 #pragma once
 
-#include "PistonPieceType.h"
 #include "Machineable.h"
+
+enum PistonPieceType { TETE, JUPE, AXE };
 
 template<PistonPieceType type>
 class PistonPiece : public Machineable {

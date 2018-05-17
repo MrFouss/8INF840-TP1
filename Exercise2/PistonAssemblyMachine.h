@@ -2,11 +2,11 @@
 
 #include "IMachine.h"
 
-template<typename T>
-class MachineDataLink;
-
 #include "Piston.h"
 #include "PistonPiece.h"
+
+template<typename T>
+class MachineDataLink;
 
 class PistonAssemblyMachine : public IMachine {
 public:
@@ -22,9 +22,9 @@ public:
 
 protected:
 
-	virtual bool canStartNextWork();
-	virtual void startNextWork();
-	virtual void finishCurrentWork();
+	bool canStartNextJob() override;
+	void startNextJob() override;
+	void finishCurrentJob() override;
 
 private:
 
@@ -34,6 +34,7 @@ private:
 	MachineDataLink<Piston>& getOutputLink();
 	bool areLinksConnected();
 
+	// pieces beeing assembled
 	PistonTete* teteInProgress;
 	PistonJupe* jupeInProgress;
 	PistonAxe* axeInProgress;
