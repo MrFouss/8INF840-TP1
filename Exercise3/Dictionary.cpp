@@ -1,44 +1,51 @@
 #include <iostream>
+#include <list>
 #include <stack>
 
-#include "Dictionnary.h"
+#include "Dictionary.h"
 
-Dictionnary::Dictionnary(const Dictionnary& dict)
+Dictionary::Dictionary(const Dictionary& dict)
 {
-	root = copyDictionnary(dict);
+	root = copyDictionary(dict);
 }
 
-Dictionnary::~Dictionnary()
+Dictionary::~Dictionary()
 {
 	erase();
 }
 
-const Dictionnary& Dictionnary::operator=(const Dictionnary& dict)
+const Dictionary& Dictionary::operator=(const Dictionary& dict)
 {
 	if (this != &dict)
 	{
 		erase();
-		root = copyDictionnary(dict);
+		root = copyDictionary(dict);
 	}
 	return *this;
 }
 
-void Dictionnary::addWord(const string word)
+void Dictionary::addWord(const string word)
 {
-
+	if (!isContainingWord(word))
+	{
+		// TODO add word
+	}
 }
 
-void Dictionnary::removeWord(const string word)
+void Dictionary::removeWord(const string word)
 {
-
+	if (isContainingWord(word))
+	{
+		// TODO remove word
+	}
 }
 
-void Dictionnary::displayDictionnary() const
+void Dictionary::displayDictionary() const
 {
 	cout << this << endl;
 }
 
-bool Dictionnary::isContainingWord(const string word) const
+bool Dictionary::isContainingWord(const string word) const
 {
 	if (isEmpty())
 	{
@@ -69,12 +76,12 @@ bool Dictionnary::isContainingWord(const string word) const
 	return lastIterator->isEndOfWord;
 }
 
-bool Dictionnary::isEmpty() const
+bool Dictionary::isEmpty() const
 {
 	return root == 0;
 }
 
-void Dictionnary::erase()
+void Dictionary::erase()
 {
 	stack<Node*> nodeStack;
 
@@ -103,7 +110,7 @@ void Dictionnary::erase()
 	}
 }
 
-Dictionnary::Node* Dictionnary::copyDictionnary(const Dictionnary& dict)
+Dictionary::Node* Dictionary::copyDictionary(const Dictionary& dict)
 {
 	if (dict.isEmpty())
 	{
@@ -143,13 +150,46 @@ Dictionnary::Node* Dictionnary::copyDictionnary(const Dictionnary& dict)
 	return newRoot;
 }
 
-ostream& operator<<(ostream& stream, const Dictionnary& dict)
+ostream& operator<<(ostream& stream, const Dictionary& dict)
 {
+	stack<Dictionary::WordIterator> stack;
+	stack.push(Dictionary::WordIterator("", dict.root));
+
+	while (!stack.empty())
+	{
+		Dictionary::WordIterator iterator = stack.top();
+		stack.pop();
+
+		if (iterator.node->isEndOfWord)
+		{
+			stream << iterator.word << iterator.node->letter << '\n';
+		}
+
+		if (iterator.node->nextLetter != 0)
+		{
+			string newWord = iterator.word + iterator.node->letter;
+			stack.push(Dictionary::WordIterator(newWord, iterator.node->nextLetter));
+		}
+
+		if (iterator.node->alternativeLetter != 0)
+		{
+			string newWord = iterator.word;
+			newWord.pop_back();
+			newWord += iterator.node->letter;
+			stack.push(Dictionary::WordIterator(newWord, iterator.node->alternativeLetter));
+		}
+	}
+
 	return stream;
 }
 
-Dictionnary::Node::~Node()
+Dictionary::Node::~Node()
 {
 	nextLetter = 0;
 	alternativeLetter = 0;
+}
+
+Dictionary::WordIterator::~WordIterator()
+{
+	node = 0;
 }

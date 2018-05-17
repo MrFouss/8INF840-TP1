@@ -4,8 +4,8 @@ using namespace std;
 
 int main()
 {
-	Dictionnary dict;
-	dict.displayDictionnary();
+	Dictionary dict;
+	dict.displayDictionary();
 	system("pause");
 	return 0;
 }

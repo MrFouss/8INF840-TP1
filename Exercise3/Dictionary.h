@@ -4,24 +4,24 @@
 
 using namespace std;
 
-class Dictionnary
+class Dictionary
 {
 public:
-	Dictionnary() = default;
-	Dictionnary(const Dictionnary& dict);
-	~Dictionnary();
-	const Dictionnary& operator= (const Dictionnary& dict);
+	Dictionary() = default;
+	Dictionary(const Dictionary& dict);
+	~Dictionary();
+	const Dictionary& operator= (const Dictionary& dict);
 
 	void addWord(const string word);
 	void removeWord(const string word);
 	
-	void displayDictionnary() const;
+	void displayDictionary() const;
 	bool isContainingWord(const string word) const;
 
 	bool isEmpty() const;
 	void erase();
 
-	friend ostream& operator<< (ostream& stream, const Dictionnary& dict);
+	friend ostream& operator<< (ostream& stream, const Dictionary& dict);
 
 private:
 	class Node
@@ -38,8 +38,18 @@ private:
 		~Node();
 	};
 
+	struct WordIterator
+	{
+		string word;
+		Node* node;
+
+		WordIterator(string word, Node* node) : word(word), node(node) {}
+
+		~WordIterator();
+	};
+
 	Node* root = 0;
 
-	Node* copyDictionnary(const Dictionnary& dict);
+	Node* copyDictionary(const Dictionary& dict);
 };
 
