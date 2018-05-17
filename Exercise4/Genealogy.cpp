@@ -62,6 +62,9 @@ int Genealogy::addMember(string name, string firstname, int birthyear, EyeColor 
 {
 	Node* newMember = new Node(nextIndex++, name, firstname, birthyear, eyes);
 	this->tab->push_back(*newMember);
+
+	//cout << "New member : " << newMember->toString() << "\n";
+
 	return 0;
 }
 
@@ -101,7 +104,8 @@ void Genealogy::loadFromCSV(char* filepath)
 {
 	ifstream f;
 	f.open(filepath);
-	string line, name, firstname, birthyear, eyes;
+	string line, name, firstname, year, eyes;
+	int birthyear;
 
 	while (!f.eof())
 	{
@@ -109,11 +113,22 @@ void Genealogy::loadFromCSV(char* filepath)
 		stringstream ss(line);
 		getline(ss, firstname, ';');
 		getline(ss, name, ';');
-		getline(ss, birthyear, ';');
+		getline(ss, year, ';');
 		getline(ss, eyes, ';');
 
-		addMember(name, firstname, stoi(birthyear), itoEyeColor(stoi(eyes)));
+		if (year[0] == '-')
+			birthyear = stoi(year.erase(0,1)) * -1;
+		else
+			birthyear = stoi(year);
+
+		addMember(name, firstname, stoi(year), itoEyeColor(stoi(eyes)));
 	}
 
 	f.close();
+}
+
+void Genealogy::printGenealogy()
+{
+	for (auto i = tab->begin(); i != tab->end(); ++i)
+		cout << ((Node) *i).toString() << "\n";
 }

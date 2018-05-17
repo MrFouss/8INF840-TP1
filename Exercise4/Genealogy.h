@@ -52,5 +52,8 @@ public:
 
 	// load a prebuilt tree from txt file
 	void loadFromCSV(char* filepath);
+
+	// print all genealogy
+	void printGenealogy();
 };
 
