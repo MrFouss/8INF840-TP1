@@ -13,12 +13,12 @@ protected:
 
 	friend IMachine;
 
-	void setInputMachine(IMachine& input) {
-		inputMachine = &input;
+	void setInputMachine(IMachine* input) {
+		inputMachine = input;
 	}
 
-	void setOutputMachine(IMachine& output) {
-		outputMachine = &output;
+	void setOutputMachine(IMachine* output) {
+		outputMachine = output;
 	}
 
 	IMachine* inputMachine;

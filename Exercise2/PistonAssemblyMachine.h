@@ -4,21 +4,22 @@
 
 #include "Piston.h"
 #include "PistonPiece.h"
-
-template<typename T>
-class MachineDataLink;
+#include "MachineDataLink.h"
 
 class PistonAssemblyMachine : public IMachine {
 public:
 	PistonAssemblyMachine(std::string name, float workTime, float breakProbability, float repairTime) :
-		IMachine(name, workTime, breakProbability, repairTime)
+		IMachine(name, workTime, breakProbability, repairTime),
+		teteInProgress(0),
+		jupeInProgress(0),
+		axeInProgress(0)
 	{}
-	virtual ~PistonAssemblyMachine() = default;
+	virtual ~PistonAssemblyMachine();
 
-	void linkJupeInput(MachineDataLink<PistonJupe>& input);
-	void linkAxeInput(MachineDataLink<PistonAxe>& input);
-	void linkTeteInput(MachineDataLink<PistonTete>& input);
-	void linkOutput(MachineDataLink<Piston>& output);
+	void linkJupeInput(MachineDataLink<PistonJupe>* input) { linkInput(jupeInputName, input); }
+	void linkAxeInput(MachineDataLink<PistonAxe>* input) { linkInput(axeInputName, input); }
+	void linkTeteInput(MachineDataLink<PistonTete>* input) { linkInput(teteInputName, input); }
+	void linkOutput(MachineDataLink<Piston>* output) { IMachine::linkOutput(outputName, output); }
 
 protected:
 
@@ -28,10 +29,10 @@ protected:
 
 private:
 
-	MachineDataLink<PistonTete>& getTeteInputLink();
-	MachineDataLink<PistonJupe>& getJupeInputLink();
-	MachineDataLink<PistonAxe>& getAxeInputLink();
-	MachineDataLink<Piston>& getOutputLink();
+	MachineDataLink<PistonTete>* getTeteInputLink();
+	MachineDataLink<PistonJupe>* getJupeInputLink();
+	MachineDataLink<PistonAxe>* getAxeInputLink();
+	MachineDataLink<Piston>* getOutputLink();
 	bool areLinksConnected();
 
 	// pieces beeing assembled

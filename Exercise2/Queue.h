@@ -29,7 +29,7 @@ public:
 	// MODIFIERS
 
 	// a copy of data is made to store it in the queue
-	void push(const T && data) {
+	void push(const T & data) {
 		QueueElement* newElem = new QueueElement(data);
 		if (isEmpty()) {
 			head = newElem;

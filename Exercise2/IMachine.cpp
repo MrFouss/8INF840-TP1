@@ -24,14 +24,14 @@ void IMachine::onInputLinkUpdated() {
 	}
 }
 
-void IMachine::linkInput(std::string name, MachineLink& link) {
-	inputLinks[name] = &link;
-	link.setOutputMachine(*this);
+void IMachine::linkInput(std::string name, MachineLink* link) {
+	inputLinks[name] = link;
+	link->setOutputMachine(this);
 }
 
-void IMachine::linkOutput(std::string name, MachineLink& link) {
-	outputLinks[name] = &link;
-	link.setInputMachine(*this);
+void IMachine::linkOutput(std::string name, MachineLink* link) {
+	outputLinks[name] = link;
+	link->setInputMachine(this);
 }
 
 bool IMachine::hasInputLink(std::string name) {

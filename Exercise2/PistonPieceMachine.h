@@ -15,33 +15,37 @@ public:
 
 	PistonPieceMachine(std::string name, float workTime, float breakProbability, float repairTime) :
 		IMachine(name, workTime, breakProbability, repairTime),
-		workInProgress(NULL) {}
+		workInProgress(0) {}
 
-	virtual ~PistonPieceMachine() = default;
+	virtual ~PistonPieceMachine() {
+		if (workInProgress != 0) {
+			delete workInProgress;
+		}
+	}
 
-	void linkOutput(MachineDataLink<Piece>& output) {
+	void linkOutput(MachineDataLink<Piece>* output) {
 		IMachine::linkOutput(outputLinkName, output);
 	}
 
-	void linkInput(MachineDataLink<Piece>& input) {
+	void linkInput(MachineDataLink<Piece>* input) {
 		IMachine::linkInput(inputLinkName, input);
 	}
 
 protected:
 	bool canStartNextJob() override { 
 		assert(areLinksConnected());
-		return !getInputLink().isEmpty() && workInProgress == NULL; 
+		return !getInputLink()->isEmpty() && workInProgress == 0; 
 	}
 
 	void startNextJob() override {
 		assert(canStartNextJob());
-		workInProgress = &getInputLink().pop();
+		workInProgress = getInputLink()->pop();
 	}
 
 	void finishCurrentJob() override {
-		assert(areLinksConnected() && workInProgress != NULL);
+		assert(areLinksConnected() && workInProgress != 0);
 		workInProgress->setMachined();
-		getOutputLink().push(*workInProgress);
+		getOutputLink()->push(workInProgress);
 		workInProgress = NULL;
 		EventManager& em = EventManager::getInstance();
 		em.addEvent(LogEvent(em.getTime(), getName() + " finished processing a piece"));
@@ -49,11 +53,11 @@ protected:
 
 private:
 
-	MachineDataLink<Piece>& getOutputLink() {
+	MachineDataLink<Piece>* getOutputLink() {
 		return IMachine::getOutputLink<Piece>(outputLinkName);
 	}
 
-	MachineDataLink<Piece>& getInputLink() {
+	MachineDataLink<Piece>* getInputLink() {
 		return IMachine::getInputLink<Piece>(inputLinkName);
 	}
 

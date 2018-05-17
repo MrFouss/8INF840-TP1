@@ -40,8 +40,8 @@ protected:
 	// giving public access to links is up tu derived classes
 
 	// setup this machine and the given link to be connected
-	void linkInput(std::string name, MachineLink& link);
-	void linkOutput(std::string name, MachineLink& link);
+	void linkInput(std::string name, MachineLink* link);
+	void linkOutput(std::string name, MachineLink* link);
 	
 	// check weather a link exists
 	bool hasInputLink(std::string name);
@@ -50,9 +50,9 @@ protected:
 	// give access to a link and dynamically cast it to the desired type
 	// the function fails if no link is associated with the given name
 	template <class T>
-	MachineDataLink<T>& getInputLink(const std::string name);
+	MachineDataLink<T>* getInputLink(const std::string name);
 	template <class T>
-	MachineDataLink<T>& getOutputLink(const std::string name);
+	MachineDataLink<T>* getOutputLink(const std::string name);
 
 private:
 
@@ -83,13 +83,13 @@ private:
 };
 
 template<class T>
-MachineDataLink<T>& IMachine::getInputLink(const std::string name) {
+MachineDataLink<T>* IMachine::getInputLink(const std::string name) {
 	assert(hasInputLink(name));
-	return dynamic_cast<MachineDataLink<T>&>(*inputLinks[name]);
+	return dynamic_cast<MachineDataLink<T>*>(inputLinks[name]);
 }
 
 template<class T>
-MachineDataLink<T>& IMachine::getOutputLink(const std::string name) {
+MachineDataLink<T>* IMachine::getOutputLink(const std::string name) {
 	assert(hasOutputLink(name));
-	return dynamic_cast<MachineDataLink<T>&>(*outputLinks[name]);
+	return dynamic_cast<MachineDataLink<T>*>(outputLinks[name]);
 }

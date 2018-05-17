@@ -14,12 +14,16 @@ public:
 		IMachine(name, workTime, breakProbability, repairTime),
 		workInProgress(0)
 	{}
-	virtual ~SortMachine() = default;
+	virtual ~SortMachine() {
+		if (workInProgress != 0) {
+			delete workInProgress;
+		}
+	}
 
-	void linkJupeOutput(MachineDataLink<PistonJupe>& output);
-	void linkAxeOutput(MachineDataLink<PistonAxe>& output);
-	void linkTeteOutput(MachineDataLink<PistonTete>& output);
-	void linkInput(MachineDataLink<Machineable>& input);
+	void linkJupeOutput(MachineDataLink<PistonJupe>* output);
+	void linkAxeOutput(MachineDataLink<PistonAxe>* output);
+	void linkTeteOutput(MachineDataLink<PistonTete>* output);
+	void linkInput(MachineDataLink<Machineable>* input);
 
 protected:
 
@@ -29,10 +33,10 @@ protected:
 
 private:
 
-	MachineDataLink<PistonTete>& getTeteOutputLink();
-	MachineDataLink<PistonJupe>& getJupeOutputLink();
-	MachineDataLink<PistonAxe>& getAxeOutputLink();
-	MachineDataLink<Machineable>& getInputLink();
+	MachineDataLink<PistonTete>* getTeteOutputLink();
+	MachineDataLink<PistonJupe>* getJupeOutputLink();
+	MachineDataLink<PistonAxe>* getAxeOutputLink();
+	MachineDataLink<Machineable>* getInputLink();
 	bool areLinksConnected();
 	
 	// the machineable object beeing sorted
