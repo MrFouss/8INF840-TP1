@@ -21,6 +21,9 @@
     <ClInclude Include="Genealogy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="EyeColor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Node.cpp">
@@ -32,5 +35,16 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EyeColor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="README-EX4.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="jon-snow.csv">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

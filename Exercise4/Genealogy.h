@@ -1,4 +1,7 @@
 #include "Node.h"
+#include <vector>
+#include <fstream>
+#include <sstream>
 
 enum TreeTraversal { INORDER, PREORDER, POSTORDER };
 
@@ -6,8 +9,7 @@ class Genealogy
 {
 private:
 	int nextIndex;
-
-	//internal struct
+	vector<Node>* tab;
 
 	// get descendance with IN ORDER
 	void getDescendanceIN(int node);
@@ -36,7 +38,8 @@ public:
 	void getDescendance(int node, TreeTraversal type);
 
 	// add a new member to the family ; return 0 if success, -1 if error
-	int addMember(string name, string firstname, int birthyear, EyeColor eyes, int idmother, int idfather);
+	int addMember(string name, string firstname, int birthyear, EyeColor eyes);
+	int addMember(string name, string firstname, int birthyear, EyeColor eyes, int knownParentId);
 
 	// for a given color, list all members of the family with the same eye color
 	void getGenealogyByEyes(EyeColor color);
@@ -46,5 +49,8 @@ public:
 
 	// calculation of the mean age of the family
 	float meanAge();
+
+	// load a prebuilt tree from txt file
+	void loadFromCSV(char* filepath);
 };
 
