@@ -35,11 +35,7 @@ Node* Genealogy::getNode(string name, string firstname)
 
 int Genealogy::getSize()
 {
-	int count = 0;
-
-	//tree traversal
-
-	return count;
+	return (tab->size()-1); //-1 because the first element is a dummy one
 }
 
 void Genealogy::getDescendance(int node, TreeTraversal type)
