@@ -8,8 +8,9 @@ void Genealogy::getDescendancePOST(int node){}
 
 Genealogy::Genealogy()
 {
-	nextIndex = 0;
+	nextId = 1;
 	tab = new vector<Node>();
+	tab->push_back(*(new Node())); // dummy element so the vector start at 1
 }
 
 Genealogy::~Genealogy(){}
@@ -60,7 +61,7 @@ void Genealogy::getDescendance(int node, TreeTraversal type)
 
 int Genealogy::addMember(string name, string firstname, int birthyear, EyeColor eyes)
 {
-	Node* newMember = new Node(nextIndex++, name, firstname, birthyear, eyes);
+	Node* newMember = new Node(nextId++, name, firstname, birthyear, eyes);
 	this->tab->push_back(*newMember);
 
 	//cout << "New member : " << newMember->toString() << "\n";
@@ -68,19 +69,52 @@ int Genealogy::addMember(string name, string firstname, int birthyear, EyeColor 
 	return 0;
 }
 
-int Genealogy::addMember(string name, string firstname, int birthyear, EyeColor eyes, int knownParentId)
+int Genealogy::addMember(string name, string firstname, int birthyear, EyeColor eyes, int knownParentId, bool _left)
 {
-	Node* newMember = new Node(nextIndex++, name, firstname, birthyear, eyes);
-	
-	if (knownParentId < nextIndex) {
-		if ((tab->at(knownParentId).addChild(newMember)) == 0)
-			return 0;
-		else
-			return -1;
+	Node* newMember = new Node(nextId++, name, firstname, birthyear, eyes);
+
+	int index = getIndex(knownParentId);
+
+	if (index != -1) //given parent exists
+	{
+		int left = 2 * index;
+		int right = 2 * index + 1;
+
+		int maxIndex = distance(tab->begin()+1, tab->end());
+		
+		// try insert as left child of given parent
+		if (_left)
+		{
+			//check if index is not out of bound
+			if (left > maxIndex)
+				tab->resize(left+1);
+
+			if ((tab->at(left).getId() == -1))
+			{
+				tab->insert(tab->begin() + left + 1, *newMember);
+				return 0;
+			}
+			else
+				return -1;
+		}
+
+		//if (_left && !exists(left))
+		//{
+
+		//	if(tab->end() < left)
+
+		//	tab->at(left) = *newMember;
+		//	return 0;
+		//}
+
+		//if (!_left && !exists(right))
+		//{
+		//	tab->at(right) = *newMember;
+		//	return 0;
+		//}
 	}
-	else {
+	else // parent is not in the tree
 		return -1;
-	}
 }
 
 void Genealogy::getGenealogyByEyes(EyeColor color){}
@@ -127,8 +161,44 @@ void Genealogy::loadFromCSV(char* filepath)
 	f.close();
 }
 
-void Genealogy::printGenealogy()
+void Genealogy::printGenealogy(bool details)
 {
-	for (auto i = tab->begin(); i != tab->end(); ++i)
-		cout << ((Node) *i).toString() << "\n";
+	int count = 0;
+	int nextLevel = 1;
+
+	for (auto i = tab->begin()+1; i != tab->end(); ++i)
+	{
+		cout << ((Node)*i).toString(details);
+		count++;
+		if (count == nextLevel) {
+			cout << "\n";
+			count = 0;
+			nextLevel *= 2;
+		}
+		else
+			cout << " - ";
+	}
 }
+
+bool Genealogy::exists(int id)
+{
+	for (auto it = tab->begin(); it != tab->end(); ++it)
+	{
+		if (((Node)*it).getId() == id)
+			return true;
+	}
+
+	return false;
+}
+
+int Genealogy::getIndex(int id)
+{
+	for (auto it = tab->begin(); it != tab->end(); ++it)
+	{
+		if (((Node)*it).getId() == id)
+			return (it - tab->begin());
+	}
+
+	return -1;
+}
+

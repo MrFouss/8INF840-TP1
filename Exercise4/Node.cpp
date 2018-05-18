@@ -1,36 +1,32 @@
 #include "Node.h"
 
 
+Node::Node()
+{
+	this->id = -1;
+	this->name = "UNKNOWN";
+	this->firstname = "Unknown";
+	this->birthyear = 0;
+	this->eyes = itoEyeColor(0);
+}
+
 Node::Node(int id, string name, string firstname, int birthyear, EyeColor eyes){
 	this->id = id;
 	this->name = name;
 	this->firstname = firstname;
 	this->birthyear = birthyear;
 	this->eyes = eyes;
-
-	this->left = NULL;
-	this->right = NULL;
 }
 
 Node::~Node(){}
 
-string Node::toString()
+string Node::toString(bool details)
 {
-	string result = this->getFirstname() + " " + this->getName() + " " + to_string(getBirthyear()) + " " + eyeColorToString(getEyes());
+	string result;
+	if (details)
+		result = to_string(this->id) + " " + this->firstname + " " + this->name + " " + to_string(this->birthyear) + " " + eyeColorToString(this->eyes);
+	else
+		result = to_string(this->id) + " " + this->firstname + " " + this->name;
+
 	return result;
-}
-
-int Node::addChild(Node* child)
-{
-	if (!left) {
-		left = child;
-		return 0;
-	}
-
-	if (!right) {
-		right = child;
-		return 0;
-	}
-
-	return -1;
 }
