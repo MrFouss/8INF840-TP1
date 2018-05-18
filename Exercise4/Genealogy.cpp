@@ -91,27 +91,28 @@ int Genealogy::addMember(string name, string firstname, int birthyear, EyeColor 
 
 			if ((tab->at(left).getId() == -1))
 			{
-				tab->insert(tab->begin() + left + 1, *newMember);
+				tab->at(left) = *newMember;
 				return 0;
 			}
 			else
 				return -1;
 		}
 
-		//if (_left && !exists(left))
-		//{
+		// try insert as left child of given parent
+		if (!_left)
+		{
+			//check if index is not out of bound
+			if (right > maxIndex)
+				tab->resize(right + 1);
 
-		//	if(tab->end() < left)
-
-		//	tab->at(left) = *newMember;
-		//	return 0;
-		//}
-
-		//if (!_left && !exists(right))
-		//{
-		//	tab->at(right) = *newMember;
-		//	return 0;
-		//}
+			if ((tab->at(right).getId() == -1))
+			{
+				tab->at(right) = *newMember;
+				return 0;
+			}
+			else
+				return -1;
+		}
 	}
 	else // parent is not in the tree
 		return -1;

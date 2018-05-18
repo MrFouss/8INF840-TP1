@@ -14,7 +14,7 @@ int main() {
 	//cout << "\n" << family->exists(5) << "\n";
 	//cout << family->getIndex(5);
 
-	family->addMember("Targaryen", "Shaera", 1926, blue, 4, true);
+	family->addMember("Targaryen", "Shaera", 1926, blue, 5, false);
 	family->printGenealogy(false);
 
 	system("pause");
