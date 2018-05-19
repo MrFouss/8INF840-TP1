@@ -115,11 +115,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Dictionnary.h" />
+    <ClInclude Include="Dictionary.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Dictionnary.cpp" />
+    <ClCompile Include="Dictionary.cpp" />
     <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\alain.dico" />
+    <None Include="resources\g.dico" />
+    <None Include="resources\g1.dico" />
+    <None Include="resources\guillaume.dico" />
+    <None Include="resources\test.dico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
