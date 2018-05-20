@@ -26,9 +26,30 @@ const Dictionary& Dictionary::operator=(const Dictionary& dict)
 
 void Dictionary::addWord(const string word)
 {
-	if (!isContainingWord(word))
+	if (word.size() == 0 || isContainingWord(word))
 	{
-		// TODO add word
+		return;
+	}
+
+	if (root == 0 || root->letter < word.front())
+	{
+		Node* oldRoot = root;
+		root = new Node(word.front(), word.size() == 1);
+		root->alternativeLetter = oldRoot;
+
+		if (word.size() == 1)
+		{
+			return;
+		}
+	}
+
+	if ()
+
+	Node* iterator = root;
+
+	for (char letter : word)
+	{
+
 	}
 }
 
@@ -47,7 +68,7 @@ void Dictionary::displayDictionary() const
 
 bool Dictionary::isContainingWord(const string word) const
 {
-	if (isEmpty())
+	if (isEmpty() || word.size() == 0)
 	{
 		return false;
 	}
