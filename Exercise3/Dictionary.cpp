@@ -31,39 +31,134 @@ void Dictionary::addWord(const string word)
 		return;
 	}
 
-	if (root == 0 || root->letter < word.front())
-	{
-		Node* oldRoot = root;
-		root = new Node(word.front(), word.size() == 1);
-		root->alternativeLetter = oldRoot;
-
-		if (word.size() == 1)
-		{
-			return;
-		}
-	}
-
-	if ()
-
-	Node* iterator = root;
+	Node* parent = 0;
+	Node* previous = 0;
+	Node* current = root;
 
 	for (char letter : word)
 	{
+		while (current != 0 && current->letter < letter)
+		{
+			previous = current;
+			current = current->alternativeLetter;
+		}
 
+		// if the node corresponding to the letter doesn't exist
+		if (current == 0 || current->letter > letter)
+		{
+			// Create a new node
+			Node* newNode = new Node(letter, false);
+
+			// if current is the new root
+			if (parent == 0 && previous == 0)
+			{
+				root = newNode;
+			}
+			// if current is the new first element of its alternative letters
+			else if (previous == 0)
+			{
+				parent->nextLetter = newNode;
+			}
+			else
+			{
+				previous->alternativeLetter = newNode;
+			}
+
+			// Link the new node to its next element
+			newNode->alternativeLetter = current;
+
+			parent = newNode;
+		}
+		else if (current->letter == letter)
+		{
+			parent = current;
+		}
+
+		previous = 0;
+		current = parent->nextLetter;
 	}
+
+	parent->isEndOfWord = true;
 }
 
 void Dictionary::removeWord(const string word)
 {
-	if (isContainingWord(word))
+	if (word.size() == 0 || !isContainingWord(word))
 	{
-		// TODO remove word
+		return;
+	}
+
+	stack<Node*> parentStack;
+	stack<Node*> previousStack;
+	stack<Node*> currentStack;
+
+	Node* parent = 0;
+	Node* previous = 0;
+	Node* current = root;
+
+	for (char letter : word)
+	{
+		while (current != 0 && current->letter < letter)
+		{
+			previous = current;
+			current = current->alternativeLetter;
+		}
+
+		parentStack.push(parent);
+		previousStack.push(previous);
+		currentStack.push(current);
+
+		parent = current;
+		previous = 0;
+		current = parent->nextLetter;
+	}
+
+
+	currentStack.top()->isEndOfWord = false;
+	if (currentStack.top()->nextLetter != 0)
+	{
+		return;
+	}
+
+	while (!currentStack.empty())
+	{
+		parent = parentStack.top();
+		parentStack.pop();
+
+		previous = previousStack.top();
+		previousStack.pop();
+
+		current = currentStack.top();
+		currentStack.pop();
+
+		if (current->isEndOfWord || current->nextLetter != 0)
+		{
+			return;
+		}
+
+		if (previous != 0)
+		{
+			previous->alternativeLetter = current->alternativeLetter;
+		}
+		else
+		{
+			if (parent == 0)
+			{
+				root = current->alternativeLetter;
+			}
+			else
+			{
+				parent->nextLetter = current->alternativeLetter;
+			}
+		}
+
+		delete current;
 	}
 }
 
 void Dictionary::displayDictionary() const
 {
-	cout << this << endl;
+	cout << (*this) << endl;
 }
 
 bool Dictionary::isContainingWord(const string word) const
@@ -186,18 +281,17 @@ ostream& operator<<(ostream& stream, const Dictionary& dict)
 			stream << iterator.word << iterator.node->letter << '\n';
 		}
 
-		if (iterator.node->nextLetter != 0)
-		{
-			string newWord = iterator.word + iterator.node->letter;
-			stack.push(Dictionary::WordIterator(newWord, iterator.node->nextLetter));
-		}
-
 		if (iterator.node->alternativeLetter != 0)
 		{
-			string newWord = iterator.word;
-			newWord.pop_back();
-			newWord += iterator.node->letter;
+			string newWord(iterator.word);
+
 			stack.push(Dictionary::WordIterator(newWord, iterator.node->alternativeLetter));
+		}
+
+		if (iterator.node->nextLetter != 0)
+		{
+			string newWord(iterator.word + iterator.node->letter);
+			stack.push(Dictionary::WordIterator(newWord, iterator.node->nextLetter));
 		}
 	}
 
