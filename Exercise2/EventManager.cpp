@@ -1,8 +1,16 @@
 #include "EventManager.h"
-#include <assert.h>
+
+#include <cassert>
 #include <iostream>
 
-EventManager::EventManager() : eventList(), time(0) {}
+#include "LogEvent.h"
+#include "Event.h"
+
+EventManager::EventManager() : 
+	eventList(),
+	time(0), 
+	printLog(false) 
+{}
 
 EventManager & EventManager::getInstance() {
 	static EventManager em;
@@ -10,24 +18,30 @@ EventManager & EventManager::getInstance() {
 }
 
 EventManager::~EventManager() {
-	clear();
+	triggerAllEvents();
 }
 
-void EventManager::addEvent(Event && event) {
-	assert(event.getTriggerTime() >= time);
-	eventList.push(event.clone());
+void EventManager::addEvent(Event* event) {
+	assert(event != 0 && event->getTriggerTime() >= time);
+	eventList.push(event);
+}
+
+void EventManager::setPrintLog(bool printLog) {
+	this->printLog = printLog;
 }
 
 void EventManager::triggerNextEvent() {
 	assert(!isEmpty());
 	Event* e = eventList.top();
 	eventList.pop();
-	time = e->getTriggerTime();
-	e->trigger();
+	if (dynamic_cast<LogEvent*>(e) == 0 || printLog) {
+		time = e->getTriggerTime();
+		e->trigger();
+	}
 	delete e;
 }
 
-void EventManager::clear() {
+void EventManager::triggerAllEvents() {
 	while (!isEmpty()) {
 		triggerNextEvent();
 	}

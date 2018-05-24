@@ -6,13 +6,10 @@ class IMachine;
 
 class MachineEvent : public Event {
 public:
-	MachineEvent(const MachineEvent&) = default;
-	MachineEvent(float triggerTime, IMachine& machine) :
-		Event(triggerTime), machine(machine) {
-	}
+	MachineEvent(float triggerTime, IMachine* machine);
 	virtual ~MachineEvent() = default;
 
 protected:
-	IMachine& machine;
+	IMachine* machine;
 };
 

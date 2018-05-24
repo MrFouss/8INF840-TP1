@@ -23,7 +23,7 @@ public:
 	// DESTRUCTOR
 
 	~Queue() {
-		clear();
+		triggerAllEvents();
 	}
 
 	// MODIFIERS
@@ -60,7 +60,7 @@ public:
 		return data;
 	}
 
-	void clear() {
+	void triggerAllEvents() {
 		while (!isEmpty()) {
 			pop();
 		}
@@ -109,7 +109,7 @@ private:
 	// UTILS
 
 	void copy(const Queue& src) {
-		clear();
+		triggerAllEvents();
 		QueueElement* curr = src.head;
 		while (curr != NULL) {
 			push(curr->data);

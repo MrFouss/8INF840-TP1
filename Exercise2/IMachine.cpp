@@ -20,7 +20,7 @@ void IMachine::onInputLinkUpdated() {
 	// if the machine is asleep (waiting for new inputs)
 	if (!isWorking && !isBroken) {
 		EventManager& em = EventManager::getInstance();
-		em.addEvent(MachineStartWorkEvent(em.getTime(), *this));
+		em.addEvent(new MachineStartWorkEvent(em.getTime(), this));
 	}
 }
 
@@ -50,14 +50,14 @@ void IMachine::startWorkingCycle() {
 		if (breakProbability > (float)std::rand() / (RAND_MAX - 1)) {
 			// the machine breaks, it will execute its job after its repair
 			isBroken = true;
-			em.addEvent(MachineIsRepairedEvent(em.getTime() + repairTime, *this));
-			em.addEvent(LogEvent(em.getTime(), getName() + " broke"));
+			em.addEvent(new MachineIsRepairedEvent(em.getTime() + repairTime, this));
+			em.addEvent(new LogEvent(em.getTime(), getName() + " broke"));
 		}
 		else {
 			// the machine does not break, it executes its job
 			isWorking = true; 
 			startNextJob();
-			em.addEvent(MachineFinishWorkEvent(em.getTime() + workTime, *this));
+			em.addEvent(new MachineFinishWorkEvent(em.getTime() + workTime, this));
 		}
 	}
 }
@@ -68,8 +68,8 @@ void IMachine::repairMachine() {
 	isWorking = true;
 	startNextJob();
 	EventManager& em = EventManager::getInstance();
-	em.addEvent(MachineFinishWorkEvent(em.getTime() + workTime, *this));
-	em.addEvent(LogEvent(em.getTime(), getName() + " was repaired"));
+	em.addEvent(new MachineFinishWorkEvent(em.getTime() + workTime, this));
+	em.addEvent(new LogEvent(em.getTime(), getName() + " was repaired"));
 }
 
 void IMachine::endWorkingCycle() {
@@ -77,5 +77,5 @@ void IMachine::endWorkingCycle() {
 	isWorking = false;
 	finishCurrentJob();
 	EventManager& em = EventManager::getInstance();
-	em.addEvent(MachineStartWorkEvent(em.getTime(), *this));
+	em.addEvent(new MachineStartWorkEvent(em.getTime(), this));
 }

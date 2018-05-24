@@ -48,7 +48,7 @@ protected:
 		getOutputLink()->push(workInProgress);
 		workInProgress = NULL;
 		EventManager& em = EventManager::getInstance();
-		em.addEvent(LogEvent(em.getTime(), getName() + " finished processing a piece"));
+		em.addEvent(new LogEvent(em.getTime(), getName() + " finished processing a piece"));
 	}
 
 private:

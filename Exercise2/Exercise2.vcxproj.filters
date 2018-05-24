@@ -22,6 +22,15 @@
     <Filter Include="Header Files\machine">
       <UniqueIdentifier>{6ecceaa9-e18d-4258-8a8e-d621742aa588}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\event">
+      <UniqueIdentifier>{31bbf8a6-0365-4a22-84cb-c9f4b4bd3c28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\piston">
+      <UniqueIdentifier>{47f243b8-fbd8-454d-aab2-95e34388c4c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\machine">
+      <UniqueIdentifier>{4276f745-ce8b-4dc4-b1f7-ee3f7bca3c38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Queue.h">
@@ -80,50 +89,50 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Machineable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Piston.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Event.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\event</Filter>
     </ClCompile>
     <ClCompile Include="EventManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MachineLink.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IMachine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PistonPieceMachine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SortMachine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MachineDataLink.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\event</Filter>
     </ClCompile>
     <ClCompile Include="LogEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PistonAssemblyMachine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MachineStartWorkEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MachineFinishWorkEvent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\event</Filter>
     </ClCompile>
     <ClCompile Include="MachineIsRepairedEvent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\event</Filter>
+    </ClCompile>
+    <ClCompile Include="MachineFinishWorkEvent.cpp">
+      <Filter>Source Files\event</Filter>
     </ClCompile>
     <ClCompile Include="MachineEvent.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\event</Filter>
+    </ClCompile>
+    <ClCompile Include="MachineStartWorkEvent.cpp">
+      <Filter>Source Files\event</Filter>
+    </ClCompile>
+    <ClCompile Include="Machineable.cpp">
+      <Filter>Source Files\piston</Filter>
+    </ClCompile>
+    <ClCompile Include="Piston.cpp">
+      <Filter>Source Files\piston</Filter>
+    </ClCompile>
+    <ClCompile Include="IMachine.cpp">
+      <Filter>Source Files\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="MachineDataLink.cpp">
+      <Filter>Source Files\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="MachineLink.cpp">
+      <Filter>Source Files\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="PistonAssemblyMachine.cpp">
+      <Filter>Source Files\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="PistonPieceMachine.cpp">
+      <Filter>Source Files\machine</Filter>
+    </ClCompile>
+    <ClCompile Include="SortMachine.cpp">
+      <Filter>Source Files\machine</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

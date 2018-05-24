@@ -2,4 +2,10 @@
 
 #include "IMachine.h"
 
-void MachineFinishWorkEvent::trigger() const { machine.endWorkingCycle(); }
+MachineFinishWorkEvent::MachineFinishWorkEvent(float triggerTime, IMachine * machine) :
+	MachineEvent(triggerTime, machine)
+{}
+
+void MachineFinishWorkEvent::trigger() const { 
+	machine->endWorkingCycle(); 
+}

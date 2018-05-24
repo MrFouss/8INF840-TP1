@@ -42,7 +42,7 @@ void PistonAssemblyMachine::finishCurrentJob() {
 	axeInProgress = 0;
 	getOutputLink()->push(piston);
 	EventManager& em = EventManager::getInstance();
-	em.addEvent(LogEvent(em.getTime(), getName() + " assembled a piston"));
+	em.addEvent(new LogEvent(em.getTime(), getName() + " assembled a piston"));
 }
 
 inline MachineDataLink<PistonTete>* PistonAssemblyMachine::getTeteInputLink() {

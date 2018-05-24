@@ -1,8 +1,8 @@
 #pragma once
 
 #include <queue>
-#include <functional>
-#include "Event.h"
+
+class Event;
 
 class EventManager {
 public:
@@ -10,10 +10,11 @@ public:
 
 	~EventManager();
 	
-	void addEvent(Event&& event);
+	void addEvent(Event* event);
+	void setPrintLog(bool printLog);
 
 	void triggerNextEvent();
-	void clear();
+	void triggerAllEvents();
 
 	bool isEmpty() const;
 	float getTime() const;
@@ -30,4 +31,5 @@ private:
 
 	std::priority_queue<Event*, std::vector<Event*>, Posteriority> eventList;
 	float time;
+	bool printLog;
 };

@@ -2,4 +2,8 @@
 
 #include "IMachine.h"
 
-void MachineIsRepairedEvent::trigger() const { machine.repairMachine(); }
+MachineIsRepairedEvent::MachineIsRepairedEvent(float triggerTime, IMachine * machine) :
+	MachineEvent(triggerTime, machine) {
+}
+
+void MachineIsRepairedEvent::trigger() const { machine->repairMachine(); }

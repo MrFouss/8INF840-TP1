@@ -51,7 +51,7 @@ void SortMachine::finishCurrentJob() {
 	}
 
 	EventManager& em = EventManager::getInstance();
-	em.addEvent(LogEvent(em.getTime(), message));
+	em.addEvent(new LogEvent(em.getTime(), message));
 	workInProgress = NULL;
 }
 
