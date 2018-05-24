@@ -13,7 +13,7 @@ public:
 	SortMachine(std::string name, float workTime, float breakProbability, float repairTime);
 	virtual ~SortMachine();
 
-	void linkskirtOutput(MachineDataLink<PistonSkirt>* output);
+	void linkSkirtOutput(MachineDataLink<PistonSkirt>* output);
 	void linkAxisOutput(MachineDataLink<PistonAxis>* output);
 	void linkHeadOutput(MachineDataLink<PistonHead>* output);
 	void linkInput(MachineDataLink<Machineable>* input);
@@ -27,7 +27,7 @@ protected:
 private:
 
 	MachineDataLink<PistonHead>* getHeadOutputLink();
-	MachineDataLink<PistonSkirt>* getskirtOutputLink();
+	MachineDataLink<PistonSkirt>* getSkirtOutputLink();
 	MachineDataLink<PistonAxis>* getAxisOutputLink();
 	MachineDataLink<Machineable>* getInputLink();
 	bool areLinksConnected();

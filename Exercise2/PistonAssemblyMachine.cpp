@@ -3,7 +3,7 @@
 #include "EventManager.h"
 #include "LogEvent.h"
 
-const std::string PistonAssemblyMachine::skirtInputName = "PistonAssemblyMachineskirtInput";
+const std::string PistonAssemblyMachine::skirtInputName = "PistonAssemblyMachineSkirtInput";
 const std::string PistonAssemblyMachine::axisInputName = "PistonAssemblyMachineAxisInput";
 const std::string PistonAssemblyMachine::headInputName = "PistonAssemblyMachineHeadInput";
 const std::string PistonAssemblyMachine::outputName = "PistonAssemblyMachineOutput";
@@ -27,7 +27,7 @@ PistonAssemblyMachine::~PistonAssemblyMachine() {
 	}
 }
 
-void PistonAssemblyMachine::linkskirtInput(MachineDataLink<PistonSkirt>* input) {
+void PistonAssemblyMachine::linkSkirtInput(MachineDataLink<PistonSkirt>* input) {
 	linkInput(skirtInputName, input); 
 }
 
@@ -47,12 +47,12 @@ bool PistonAssemblyMachine::canStartNextJob() {
 	return areLinksConnected() 
 		&& !getHeadInputLink()->isEmpty() 
 		&& !getAxisInputLink()->isEmpty()
-		&& !getskirtInputLink()->isEmpty();
+		&& !getSkirtInputLink()->isEmpty();
 }
 
 void PistonAssemblyMachine::startNextJob() {
 	assert(canStartNextJob());
-	skirtInProgress = getskirtInputLink()->pop();
+	skirtInProgress = getSkirtInputLink()->pop();
 	headInProgress = getHeadInputLink()->pop();
 	axisInProgress = getAxisInputLink()->pop();
 }
@@ -72,7 +72,7 @@ MachineDataLink<PistonHead>* PistonAssemblyMachine::getHeadInputLink() {
 	return getInputLink<PistonHead>(headInputName);
 }
 
-MachineDataLink<PistonSkirt>* PistonAssemblyMachine::getskirtInputLink() {
+MachineDataLink<PistonSkirt>* PistonAssemblyMachine::getSkirtInputLink() {
 	return getInputLink<PistonSkirt>(skirtInputName);
 }
 

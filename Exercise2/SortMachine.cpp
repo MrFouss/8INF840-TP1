@@ -6,7 +6,7 @@
 #include <iostream>
 #include <string>
 
-const std::string SortMachine::skirtOutputName = "SortMachineskirtOutput";
+const std::string SortMachine::skirtOutputName = "SortMachineSkirtOutput";
 const std::string SortMachine::axisOutputName = "SortMachineAxisOutput";
 const std::string SortMachine::headOutputName = "SortMachineHeadOutput";
 const std::string SortMachine::inputName = "SortMachineInput";
@@ -22,7 +22,7 @@ SortMachine::~SortMachine() {
 	}
 }
 
-void SortMachine::linkskirtOutput(MachineDataLink<PistonSkirt>* output) { linkOutput(skirtOutputName, output); }
+void SortMachine::linkSkirtOutput(MachineDataLink<PistonSkirt>* output) { linkOutput(skirtOutputName, output); }
 
 void SortMachine::linkAxisOutput(MachineDataLink<PistonAxis>* output) { linkOutput(axisOutputName, output); }
 
@@ -49,7 +49,7 @@ void SortMachine::finishCurrentJob() {
 		message += "axis";
 	}
 	else if (dynamic_cast<PistonSkirt*>(workInProgress) != 0) {
-		getskirtOutputLink()->push(dynamic_cast<PistonSkirt*>(workInProgress));
+		getSkirtOutputLink()->push(dynamic_cast<PistonSkirt*>(workInProgress));
 		message += "skirt";
 	}
 	else if (dynamic_cast<PistonHead*>(workInProgress) != 0) {
@@ -70,7 +70,7 @@ MachineDataLink<PistonHead>* SortMachine::getHeadOutputLink() {
 	return getOutputLink<PistonHead>(headOutputName);
 }
 
-MachineDataLink<PistonSkirt>* SortMachine::getskirtOutputLink() {
+MachineDataLink<PistonSkirt>* SortMachine::getSkirtOutputLink() {
 	return getOutputLink<PistonSkirt>(skirtOutputName);
 }
 

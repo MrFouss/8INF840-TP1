@@ -11,7 +11,7 @@ public:
 	PistonAssemblyMachine(std::string name, float workTime, float breakProbability, float repairTime);
 	virtual ~PistonAssemblyMachine();
 
-	void linkskirtInput(MachineDataLink<PistonSkirt>* input);
+	void linkSkirtInput(MachineDataLink<PistonSkirt>* input);
 	void linkAxisInput(MachineDataLink<PistonAxis>* input);
 	void linkHeadInput(MachineDataLink<PistonHead>* input);
 	void linkOutput(MachineDataLink<Piston>* output);
@@ -25,7 +25,7 @@ protected:
 private:
 
 	MachineDataLink<PistonHead>* getHeadInputLink();
-	MachineDataLink<PistonSkirt>* getskirtInputLink();
+	MachineDataLink<PistonSkirt>* getSkirtInputLink();
 	MachineDataLink<PistonAxis>* getAxisInputLink();
 	MachineDataLink<Piston>* getOutputLink();
 	bool areLinksConnected();

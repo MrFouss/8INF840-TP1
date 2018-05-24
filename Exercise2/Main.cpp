@@ -31,7 +31,7 @@ int main() {
 	MachineDataLink<PistonSkirt> sortOutputskirt;
 	MachineDataLink<PistonHead> sortOutputHead;
 	sortMachine.linkAxisOutput(&sortOutputAxis);
-	sortMachine.linkskirtOutput(&sortOutputskirt);
+	sortMachine.linkSkirtOutput(&sortOutputskirt);
 	sortMachine.linkHeadOutput(&sortOutputHead);
 	sortMachine.linkInput(&sortInput);
 
@@ -47,7 +47,7 @@ int main() {
 	axisMachine.linkInput(&sortOutputAxis);
 	axisMachine.linkOutput(&pieceMachineOutputAxis);
 
-	PistonPieceMachine<PistonPieceType::SKIRT> skirtMachine("skirtMachine", 2, 0, 0);
+	PistonPieceMachine<PistonPieceType::SKIRT> skirtMachine("SkirtMachine", 2, 0, 0);
 	MachineDataLink<PistonSkirt> pieceMachineOutputskirt;
 	skirtMachine.linkInput(&sortOutputskirt);
 	skirtMachine.linkOutput(&pieceMachineOutputskirt);
@@ -57,7 +57,7 @@ int main() {
 	PistonAssemblyMachine assemblyMachine("AssemblyMachine", 5, 0, 0);
 	MachineDataLink<Piston> pistonOutput;
 	assemblyMachine.linkAxisInput(&pieceMachineOutputAxis);
-	assemblyMachine.linkskirtInput(&pieceMachineOutputskirt);
+	assemblyMachine.linkSkirtInput(&pieceMachineOutputskirt);
 	assemblyMachine.linkHeadInput(&pieceMachineOutputHead);
 	assemblyMachine.linkOutput(&pistonOutput);
 
