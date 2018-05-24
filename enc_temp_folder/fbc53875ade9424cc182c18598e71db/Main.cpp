@@ -87,10 +87,10 @@ int main() {
 
 	// print stats
 
-	cout << pistonOutput.getSize() << " piston(s) produced out of " 
-		<< skirtNbr << " skirt(s), "
+	cout << pistonOutput.getSize() << " pistons produced out of " 
+		<< skirtNbr << " skirts, "
 		<< axisNbr << " axis, " 
-		<< headNbr << " head(s)" << endl;
+		<< headNbr << " heads" << endl;
 
 	system("pause");
 	return 0;

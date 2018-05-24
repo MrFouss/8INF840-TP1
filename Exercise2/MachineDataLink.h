@@ -29,7 +29,7 @@ public:
 
 	bool isEmpty() const { return queue.isEmpty(); }
 
-	int getSize() const { return queue.getSize(); }
+	int getSize() const { return queue.getElementNbr(); }
 
 private:
 	Queue<T*> queue;
