@@ -7,6 +7,7 @@ std::string eyeColorToString(EyeColor eye) {
 	case green: return string("green");
 	case brown: return string("brown");
 	case black: return string("blue");
+	case none:  return string("none");
 	default:	return string("UNKNOWN COLOR");
 	}
 }

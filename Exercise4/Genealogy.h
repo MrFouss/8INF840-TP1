@@ -19,6 +19,9 @@ private:
 	// get descendance with POSTORDER
 	vector<Node*>* getAncestorsPOST(int nodeId);
 
+	// add a new member to the family ; return 0 if success, -1 if error
+	int addMember(string name, string firstname, int birthyear, EyeColor eyes);
+
 public:
 	// constructor
 	Genealogy();
@@ -39,7 +42,6 @@ public:
 	vector<Node*>* getAncestors(int node, TreeTraversal type);
 
 	// add a new member to the family ; return 0 if success, -1 if error
-	int addMember(string name, string firstname, int birthyear, EyeColor eyes);
 	int addMember(string name, string firstname, int birthyear, EyeColor eyes, int knownParentId, bool left);
 
 	// for a given color, list all members of the family with the same eye color

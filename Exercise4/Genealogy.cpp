@@ -97,7 +97,15 @@ Node* Genealogy::getNode(string name, string firstname)
 
 int Genealogy::getSize()
 {
-	return (tab->size()-1); //-1 because the first element is a dummy one
+	int count = 0;
+
+	for (auto it = tab->begin() + 1; it != tab->end(); ++it)
+	{
+		if ((*it).getId() != -1)
+			count++;
+	}
+
+	return count;
 }
 
 vector<Node*>* Genealogy::getAncestors(int node, TreeTraversal type)
@@ -266,6 +274,8 @@ void Genealogy::printGenealogy(bool details)
 {
 	int count = 0;
 	int nextLevel = 1;
+
+	cout << "\n";
 
 	for (auto i = tab->begin()+1; i != tab->end(); ++i)
 	{

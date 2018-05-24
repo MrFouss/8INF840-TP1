@@ -14,42 +14,37 @@ int main() {
 
 	// Load a family tree
 	family->loadFromCSV("jon-snow.csv");
+	cout << "Arbre genealogique :";
 	family->printGenealogy(true);
 
 	// ----- sujet de TP -----
 
 	// 1. size of the tree
-	//cout << "La famille compte " << family->getSize() << " membres\n";
+	cout << "\nLa famille compte " << family->getSize() << " membres\n";
 
 	// 2. liste des ascendants d'une personne ayant la même couleur d'yeux
-	//vector<Node>* ancestorsSameEyes = family->getAncestorsByEyes(1);
-	//printNodeVector(ancestorsSameEyes);
+	vector<Node>* ancestorsSameEyes = family->getAncestorsByEyes(1);
+	cout << "\nListe des ancetres de " << family->getNode(1)->getFirstname() << " " << family->getNode(1)->getName() << " ayant la meme couleur d'yeux :\n";
+	printNodeVector(ancestorsSameEyes);
 
 	// 3. add a member
-	//family->addMember("Targaryen", "Jachaerys II", 1922, blue);
-	//family->addMember("Targaryen", "Shaera", 1926, blue, 5, false);
-	//family->printGenealogy(false);
+	family->addMember("Targaryen", "Shaera", 1926, blue, 5, false);
+	cout << "\nAjout de Shaera Targaryen\n";
+	cout << "\nNouvel arbre généalogique :";
+	family->printGenealogy(true);
 
 	// 4. lister les personnes ayant la couleur d'yeux indiquée
-	//vector<Node>* blue = family->getGenealogyByEyes(EyeColor::blue);
-	//cout << "Have blue eyes :\n";
-	//for (auto it = blue->begin(); it != blue->end(); ++it)
-	//	cout << (*it).toString(false) << "\n";
+	vector<Node>* blue = family->getGenealogyByEyes(EyeColor::blue);
+	cout << "\nPersonnes ayant les yeux bleus :\n";
+	printNodeVector(blue);
 
 	// 5. liste les ancêtres ayant la même couleur d'yeux que la personne choisie
-	//vector<Node>* ancestorsBrown = family->getAncestorsByEyes(5);
-	//cout << "Ancestors of " << family->getNode(5)->toString(false) << " that have brown eyes :\n";
-	//for (auto it = ancestorsBrown->begin(); it != ancestorsBrown->end(); ++it)
-	//	cout << (*it).toString(false) << "\n";
+	vector<Node>* ancestorsBrown = family->getAncestorsByEyes(5);
+	cout << "\nAncetres de " << family->getNode(5)->toString(false) << " ayant les memes yeux :\n";
+	printNodeVector(ancestorsBrown);
 
 	// 6. moyenne d'âge de la famille
-	cout << "L'age moyen dans la famille est d'environ " << family->meanAge() << " ans.\n";
-
-	// ----- utils -----
-
-	// check if a given node exists
-	//cout << "\n" << family->exists(5) << "\n";
-
+	cout << "\nL'age moyen dans la famille est d'environ " << family->meanAge() << " ans.\n";
 	
 
 	system("pause");
