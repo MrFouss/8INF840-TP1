@@ -38,7 +38,6 @@ int getChosenMemberId(Genealogy* family)
 
 	do
 	{
-		cout << "Entrer l'id de la personne recherchee > ";
 		cin >> (int)cn;
 	} while (!family->exists(cn));
 

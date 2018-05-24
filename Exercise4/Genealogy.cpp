@@ -267,7 +267,7 @@ int Genealogy::meanAge()
 		return 0;
 }
 
-void Genealogy::loadFromCSV(char* filepath)
+void Genealogy::loadFromCSV(const char* filepath)
 {
 	ifstream f;
 	f.open(filepath);
@@ -313,7 +313,7 @@ void Genealogy::printGenealogy(bool details)
 		else
 			cout << " - ";
 	}
-	cout << "\n----------\n";
+	cout << "\n";
 }
 
 bool Genealogy::exists(int id)

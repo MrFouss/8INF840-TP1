@@ -57,7 +57,7 @@ public:
 	int meanAge();
 
 	// load a prebuilt tree from txt file
-	void loadFromCSV(char* filepath);
+	void loadFromCSV(const char* filepath);
 
 	// print all genealogy ; if details is true, all informations will be printed, otherwise, only firstname/name
 	void printGenealogy(bool details);
