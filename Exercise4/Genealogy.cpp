@@ -123,6 +123,30 @@ vector<Node*>* Genealogy::getAncestors(int node, TreeTraversal type)
 	}
 }
 
+vector<Node*>* Genealogy::getDescendants(int nodeId)
+{
+	if (nodeId != 1)
+	{
+		int currIndex = getIndex(nodeId);
+		int descendantIndex;
+		
+		if (getIndex(nodeId) % 2 == 0)
+			descendantIndex = currIndex / 2;
+		else
+			descendantIndex = (currIndex - 1) / 2;
+
+		vector<Node*>* v = getDescendants(descendantIndex);
+		v->insert(v->begin(), getNode(nodeId));
+		return v;
+
+	}
+	else {
+		vector<Node*>* v = new vector<Node*>();
+		v->push_back(getNode(1));
+		return v;
+	}
+}
+
 int Genealogy::addMember(string name, string firstname, int birthyear, EyeColor eyes)
 {
 	Node* newMember = new Node(nextId++, name, firstname, birthyear, eyes);

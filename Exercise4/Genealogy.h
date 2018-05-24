@@ -41,6 +41,9 @@ public:
 	// for a given id return a list of all ancestors, including the given person
 	vector<Node*>* getAncestors(int node, TreeTraversal type);
 
+	// for a given id return a list of all ancestors, including the given person
+	vector<Node*>* getDescendants(int node);
+
 	// add a new member to the family ; return 0 if success, -1 if error
 	int addMember(string name, string firstname, int birthyear, EyeColor eyes, int knownParentId, bool left);
 
