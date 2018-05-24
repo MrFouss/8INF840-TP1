@@ -6,6 +6,6 @@
 	Notons que l'on ajoute également un identifiant à chaque noeud afin de dissocier les homonymes.
 
 	2. Arbre généalogique
-
+	NB : les UNKNOWN ne peuvent pas avoir d'acnêtre
 
 ## Initialisation

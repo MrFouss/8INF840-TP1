@@ -7,7 +7,7 @@ Node::Node()
 	this->name = "UNKNOWN";
 	this->firstname = "Unknown";
 	this->birthyear = 0;
-	this->eyes = itoEyeColor(-1);
+	this->eyes = none;
 }
 
 Node::Node(int id, string name, string firstname, int birthyear, EyeColor eyes){
@@ -26,7 +26,7 @@ string Node::toString(bool details)
 	if (details)
 		result = to_string(this->id) + " " + this->firstname + " " + this->name + " " + to_string(this->birthyear) + " " + eyeColorToString(this->eyes);
 	else
-		result = to_string(this->id) + " " + this->firstname + " " + this->name;
+		result = this->firstname + " " + this->name;
 
 	return result;
 }

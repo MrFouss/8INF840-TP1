@@ -4,16 +4,16 @@ vector<Node*>* Genealogy::getAncestorsIN(int nodeId)
 {
 	int currentIndex = getIndex(nodeId);
 	int leftAncestor = currentIndex * 2;
-	int rightAncestor = currentIndex * 2 + 1;
+	int rightAncestor = (currentIndex * 2) + 1;
 
 	vector<Node*>* left = new vector<Node*>();
-	if (leftAncestor < tab->size())
+	if (leftAncestor < tab->size() && (tab->at(leftAncestor).getId() != -1))
 		left = getAncestorsIN(tab->at(leftAncestor).getId());
 
 	left->push_back(this->getNode(nodeId));
 
 	vector<Node*>* right = new vector<Node*>();
-	if (rightAncestor < tab->size())
+	if (rightAncestor < tab->size() && (tab->at(rightAncestor).getId() != -1))
 		right = getAncestorsIN(tab->at(rightAncestor).getId());
 
 	left->insert(left->end(), right->begin(), right->end());
@@ -30,11 +30,11 @@ vector<Node*>* Genealogy::getAncestorsPRE(int nodeId)
 	result->push_back(this->getNode(nodeId));
 
 	vector<Node*>* left = new vector<Node*>();
-	if (leftAncestor < tab->size())
+	if (leftAncestor < tab->size() && (tab->at(leftAncestor).getId() != -1))
 		left = getAncestorsPRE(tab->at(leftAncestor).getId());
 
 	vector<Node*>* right = new vector<Node*>();
-	if (rightAncestor < tab->size())
+	if (rightAncestor < tab->size() && (tab->at(rightAncestor).getId() != -1))
 		right = getAncestorsPRE(tab->at(rightAncestor).getId());
 
 	result->insert(result->end(), left->begin(), left->end());
@@ -51,11 +51,11 @@ vector<Node*>* Genealogy::getAncestorsPOST(int nodeId)
 	vector<Node*>* result = new vector<Node*>();
 
 	vector<Node*>* left = new vector<Node*>();
-	if (leftAncestor < tab->size())
+	if (leftAncestor < tab->size() && (tab->at(leftAncestor).getId() != -1))
 		left = getAncestorsPOST(tab->at(leftAncestor).getId());
 
 	vector<Node*>* right = new vector<Node*>();
-	if (rightAncestor < tab->size())
+	if (rightAncestor < tab->size() && (tab->at(rightAncestor).getId() != -1))
 		right = getAncestorsPOST(tab->at(rightAncestor).getId());
 
 	result->insert(result->end(), left->begin(), left->end());
@@ -205,7 +205,15 @@ vector<Node>* Genealogy::getAncestorsByEyes(int nodeId)
 	if (exists(nodeId))
 	{
 		EyeColor color = this->getNode(nodeId)->getEyeColor();
-		
+		vector<Node*>* ancestors = getAncestors(nodeId, INORDER);
+
+		for (auto it = ancestors->begin(); it != ancestors->end(); ++it)
+		{
+			Node* n = (Node*)*it;
+			//if(n->getEyeColor() != color)
+			//	ancestors
+		}
+
 		return nullptr;
 	}
 	else {
@@ -272,7 +280,7 @@ void Genealogy::printGenealogy(bool details)
 		else
 			cout << " - ";
 	}
-	cout << "\n";
+	cout << "\n----------\n";
 }
 
 bool Genealogy::exists(int id)

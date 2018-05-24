@@ -14,6 +14,8 @@ int main() {
 
 	// Load a family tree
 	family->loadFromCSV("test.csv");
+	family->addMember("", "H", 0, none, 6, true);
+	family->addMember("", "I", 0, none, 5, false);
 	family->printGenealogy(false);
 
 	// ----- sujet de TP -----
@@ -22,12 +24,6 @@ int main() {
 	//cout << "La famille compte " << family->getSize() << " membres\n";
 
 	// 2. liste des ascendants d'une personne
-	vector<Node*>* inorder = new vector<Node*>();
-	inorder = family->getAncestors(1, PREORDER);
-	for (auto it = inorder->begin(); it != inorder->end(); ++it)
-	{
-		cout << (*it)->toString(false);
-	}
 
 	// 3. add a member
 	//family->addMember("Targaryen", "Jachaerys II", 1922, blue);
