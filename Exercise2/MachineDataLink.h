@@ -18,14 +18,13 @@ public:
 
 	void push(T* obj) {
 		queue.push(obj);
-		if (outputMachine != NULL) {
+		if (outputMachine != 0) {
 			outputMachine->onInputLinkUpdated();
 		}
 	}
 
 	T* pop() {
-		T* obj = queue.pop();
-		return obj;
+		return queue.pop();
 	}
 
 	bool isEmpty() const { return queue.isEmpty(); }

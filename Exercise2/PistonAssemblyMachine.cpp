@@ -68,19 +68,19 @@ void PistonAssemblyMachine::finishCurrentJob() {
 	em.addEvent(new LogEvent(em.getTime(), getName() + " assembled a piston"));
 }
 
-inline MachineDataLink<PistonTete>* PistonAssemblyMachine::getTeteInputLink() {
+MachineDataLink<PistonTete>* PistonAssemblyMachine::getTeteInputLink() {
 	return getInputLink<PistonTete>(teteInputName);
 }
 
-inline MachineDataLink<PistonJupe>* PistonAssemblyMachine::getJupeInputLink() {
+MachineDataLink<PistonJupe>* PistonAssemblyMachine::getJupeInputLink() {
 	return getInputLink<PistonJupe>(jupeInputName);
 }
 
-inline MachineDataLink<PistonAxe>* PistonAssemblyMachine::getAxeInputLink() {
+MachineDataLink<PistonAxe>* PistonAssemblyMachine::getAxeInputLink() {
 	return getInputLink<PistonAxe>(axeInputName);
 }
 
-inline MachineDataLink<Piston>* PistonAssemblyMachine::getOutputLink() {
+MachineDataLink<Piston>* PistonAssemblyMachine::getOutputLink() {
 	return IMachine::getOutputLink<Piston>(outputName);
 }
 

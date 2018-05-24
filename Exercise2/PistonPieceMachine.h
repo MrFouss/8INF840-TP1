@@ -46,7 +46,7 @@ protected:
 		assert(areLinksConnected() && workInProgress != 0);
 		workInProgress->setMachined();
 		getOutputLink()->push(workInProgress);
-		workInProgress = NULL;
+		workInProgress = 0;
 		EventManager& em = EventManager::getInstance();
 		em.addEvent(new LogEvent(em.getTime(), getName() + " finished processing a piece"));
 	}

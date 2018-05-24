@@ -13,76 +13,75 @@ public:
 
 	// CONSTRUCTORS
 
-	Queue() : head(NULL), tail(NULL), size(0) {}
+	Queue(int size = 10) :
+		head(0),
+		tail(-1),
+		size(size)
+	{
+		assert(size > 0);
+		data = new T[size];
+	}
 
-	Queue(const Queue& other) {
-		Queue();
+	Queue(const Queue& other) :
+		head(0),
+		tail(-1),
+		size(0),
+		data(0)
+	{
 		this->copy(other);
 	}
 
 	// DESTRUCTOR
 
 	~Queue() {
-		triggerAllEvents();
+		delete[] data;
 	}
 
 	// MODIFIERS
 
 	// a copy of data is made to store it in the queue
-	void push(const T & data) {
-		QueueElement* newElem = new QueueElement(data);
-		if (isEmpty()) {
-			head = newElem;
+	void push(const T & element) {
+		if (isFull()) {
+			extendArray();
 		}
-		else {
-			tail->next = newElem;
-		}
-		tail = newElem;
-		this->size++;
+		data[(++tail)%size] = element;
 	}
 
 	T pop() {
 		assert(!isEmpty());
-
-		QueueElement* top = head;
-
-		if (head == tail) {
-			tail = NULL;
-		}
-		this->head = this->head->next;
-
-		top->next = NULL;
-		T data = top->data;
-		delete top;
-
-		this->size--;
-
-		return data;
+		capHeadAndTail();
+		return data[(head++)%size];
 	}
 
-	void triggerAllEvents() {
-		while (!isEmpty()) {
-			pop();
-		}
+	void clear() {
+		head = tail + 1;
 	}
 
 	// ACCESSORS
 
 	bool isEmpty() const {
-		return this->size == 0;
+		return head > tail;
+	}
+
+	bool isFull() const {
+		return getElementNbr() == size;
+	}
+
+	int getElementNbr() const {
+		return tail - head + 1;
 	}
 
 	int getSize() const {
-		return this->size;
+		return size;
 	}
 
 	const T& getHead() const {
 		assert(!isEmpty());
-		return head->data;
+		return data[head%size];
 	}
 	const T& getTail() const {
 		assert(!isEmpty());
-		return tail->data;
+		return data[tail%size];
 	}
 
 	// OPERATORS
@@ -97,30 +96,64 @@ public:
 
 private:
 
-	class QueueElement {
-	public:
-		QueueElement(const T& data, QueueElement* next = NULL) : data(data), next(next) {}
-		~QueueElement() = default;
-
-		T data;
-		QueueElement* next;
-	};
-
 	// UTILS
 
 	void copy(const Queue& src) {
-		triggerAllEvents();
-		QueueElement* curr = src.head;
-		while (curr != NULL) {
-			push(curr->data);
-			curr = curr->next;
+		if (data != 0) {
+			delete[] data;
+		}
+
+		size = src.size;
+		head = src.head;
+		tail = src.tail;
+		data = new T[src.size];
+
+		for (int i = 0; i < src.size; ++i) {
+			data[i] = src.data[i];
+		}
+	}
+
+	// when the array needs to be extended
+	// the size is doubled
+	void extendArray() {
+		T* newData = new T[size * 2]; 
+		for (int i = head; i <= tail; ++i) {
+			newData[i - head] = data[i%size];
+		}
+		head = 0;
+		tail = size-1;
+		size *= 2;
+		delete[] data;
+		data = newData;
+	}
+
+	// avoid overflows by caping head and tail under size*2
+	// this maintains the properties of head and tail described below
+	void capHeadAndTail() {
+		if (isEmpty()) {
+			head = 0;
+			tail = -1;
+		}
+		else {
+			head %= size;
+			tail %= size;
+			if (tail < head) {
+				tail + size;
+			}
 		}
 	}
 
 	// FIELDS
 
-	QueueElement* head;
-	QueueElement* tail;
+	T* data;
+
+	// the indices of the head and tail elements
+	// if empty : head = tail+1
+	// if not empty : head <= tail and tail - head < size
+	int head;
+	int tail;
+
+	// the size of the data array
 	int size;
 };
 
@@ -128,17 +161,14 @@ private:
 
 template<typename U>
 std::ostream & operator<<(std::ostream & os, const Queue<U>& queue) {
-	Queue<U>::QueueElement* curr = queue.head;
 
 	os << "{";
 
 	if (!queue.isEmpty()) {
-		while (curr->next != NULL) {
-			os << curr->data << " ; ";
-
-			curr = curr->next;
+		for (int i = queue.head; i < queue.tail; i++) {
+			os << queue.data[i%queue.size] << ",";
 		}
-		os << curr->data;
+		os << queue.data[queue.tail%queue.size];
 	}
 
 	os << "}" << std::endl;
