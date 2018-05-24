@@ -7,7 +7,7 @@ Node::Node()
 	this->name = "UNKNOWN";
 	this->firstname = "Unknown";
 	this->birthyear = 0;
-	this->eyes = itoEyeColor(0);
+	this->eyes = itoEyeColor(-1);
 }
 
 Node::Node(int id, string name, string firstname, int birthyear, EyeColor eyes){

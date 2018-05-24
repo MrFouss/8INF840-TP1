@@ -12,11 +12,11 @@ private:
 	vector<Node>* tab;
 
 	// get descendance with IN ORDER
-	void getDescendanceIN(int node);
+	vector<Node*>* getAncestorsIN(int nodeId);
 	// get descendance with PRE ORDER
-	void getDescendancePRE(int node);
+	vector<Node*>* getAncestorsPRE(int nodeId);
 	// get descendance with POSTORDER
-	void getDescendancePOST(int node);
+	vector<Node*>* getAncestorsPOST(int nodeId);
 
 public:
 	// constructor
@@ -35,17 +35,20 @@ public:
 	int getSize();
 
 	// type is INORDER, PREORDER or POSTORDER ; person is the target
-	void getDescendance(int node, TreeTraversal type);
+	vector<Node*>* getAncestors(int node, TreeTraversal type);
 
 	// add a new member to the family ; return 0 if success, -1 if error
 	int addMember(string name, string firstname, int birthyear, EyeColor eyes);
 	int addMember(string name, string firstname, int birthyear, EyeColor eyes, int knownParentId, bool left);
 
 	// for a given color, list all members of the family with the same eye color
-	void getGenealogyByEyes(EyeColor color);
+	vector<Node>* getGenealogyByEyes(EyeColor color);
+
+	// for a given id return a list of all ancestors, including the given person
+	vector<Node>* getAncestors(int nodeId);
 
 	// list all ancestors with the same eye color, including the given person
-	void getAncestorsByEyes(EyeColor color, int nodeId);
+	vector<Node>* getAncestorsByEyes(int nodeId);
 
 	// calculation of the mean age of the family
 	float meanAge();

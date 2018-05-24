@@ -27,6 +27,7 @@ public:
 	string getName() { return name; }
 	string getFirstname() { return firstname; }
 	int getBirthyear() { return birthyear; }
+	EyeColor getEyeColor() { return eyes; }
 
 	// utils
 	string toString(bool details);

@@ -1,10 +1,68 @@
 #include "Genealogy.h"
 
-void Genealogy::getDescendanceIN(int node){}
+vector<Node*>* Genealogy::getAncestorsIN(int nodeId)
+{
+	int currentIndex = getIndex(nodeId);
+	int leftAncestor = currentIndex * 2;
+	int rightAncestor = currentIndex * 2 + 1;
 
-void Genealogy::getDescendancePRE(int node){}
+	vector<Node*>* left = new vector<Node*>();
+	if (leftAncestor < tab->size())
+		left = getAncestorsIN(tab->at(leftAncestor).getId());
 
-void Genealogy::getDescendancePOST(int node){}
+	left->push_back(this->getNode(nodeId));
+
+	vector<Node*>* right = new vector<Node*>();
+	if (rightAncestor < tab->size())
+		right = getAncestorsIN(tab->at(rightAncestor).getId());
+
+	left->insert(left->end(), right->begin(), right->end());
+	return left;
+}
+
+vector<Node*>* Genealogy::getAncestorsPRE(int nodeId)
+{
+	int currentIndex = getIndex(nodeId);
+	int leftAncestor = currentIndex * 2;
+	int rightAncestor = currentIndex * 2 + 1;
+
+	vector<Node*>* result = new vector<Node*>();
+	result->push_back(this->getNode(nodeId));
+
+	vector<Node*>* left = new vector<Node*>();
+	if (leftAncestor < tab->size())
+		left = getAncestorsPRE(tab->at(leftAncestor).getId());
+
+	vector<Node*>* right = new vector<Node*>();
+	if (rightAncestor < tab->size())
+		right = getAncestorsPRE(tab->at(rightAncestor).getId());
+
+	result->insert(result->end(), left->begin(), left->end());
+	result->insert(result->end(), right->begin(), right->end());
+	return result;
+}
+
+vector<Node*>* Genealogy::getAncestorsPOST(int nodeId)
+{
+	int currentIndex = getIndex(nodeId);
+	int leftAncestor = currentIndex * 2;
+	int rightAncestor = currentIndex * 2 + 1;
+
+	vector<Node*>* result = new vector<Node*>();
+
+	vector<Node*>* left = new vector<Node*>();
+	if (leftAncestor < tab->size())
+		left = getAncestorsPOST(tab->at(leftAncestor).getId());
+
+	vector<Node*>* right = new vector<Node*>();
+	if (rightAncestor < tab->size())
+		right = getAncestorsPOST(tab->at(rightAncestor).getId());
+
+	result->insert(result->end(), left->begin(), left->end());
+	result->insert(result->end(), right->begin(), right->end());
+	result->push_back(this->getNode(nodeId));
+	return result;
+}
 
 Genealogy::Genealogy()
 {
@@ -17,16 +75,18 @@ Genealogy::~Genealogy(){}
 
 Node* Genealogy::getNode(int id)
 {
-	Node* result = NULL;
+	for (auto it = tab->begin() + 1; it != tab->end(); ++it)
+	{
+		if ((*it).getId() == id)
+			return &(*it);
+	}
 
-	//tree traversal
-
-	return result;
+	return nullptr;
 }
 
 Node* Genealogy::getNode(string name, string firstname)
 {
-	Node* result = NULL;
+	Node* result = nullptr;
 
 	//tree traversal
 
@@ -38,20 +98,18 @@ int Genealogy::getSize()
 	return (tab->size()-1); //-1 because the first element is a dummy one
 }
 
-void Genealogy::getDescendance(int node, TreeTraversal type)
+vector<Node*>* Genealogy::getAncestors(int node, TreeTraversal type)
 {
 	switch (type) {
 	case INORDER:
-		getDescendanceIN(node);
-		break;
+		return getAncestorsIN(node);
 	case PREORDER:
-		getDescendancePRE(node);
-		break;
+		return getAncestorsPRE(node);
 	case POSTORDER:
-		getDescendancePOST(node);
-		break;
+		return getAncestorsPOST(node);
 	default:
-		cout << "ERROR : incorrect type of tree path ; must be INORDER, PREORDER or POSTORDER";
+		cout << "ERROR : incorrect type of tree path ; must be INORDER, PREORDER or POSTORDER\n";
+		return nullptr;
 	}
 }
 
@@ -114,9 +172,48 @@ int Genealogy::addMember(string name, string firstname, int birthyear, EyeColor 
 		return -1;
 }
 
-void Genealogy::getGenealogyByEyes(EyeColor color){}
+vector<Node>* Genealogy::getGenealogyByEyes(EyeColor color)
+{
+	vector<Node>* result = new vector<Node>();
 
-void Genealogy::getAncestorsByEyes(EyeColor color, int nodeId){}
+	for (auto it = tab->begin(); it != tab->end(); ++it)
+	{
+		Node cur = (Node)*it;
+		if (cur.getEyeColor() == color)
+			result->push_back(cur);
+	}
+
+	return result;
+}
+
+vector<Node>* Genealogy::getAncestors(int nodeId)
+{
+	if (exists(nodeId))
+	{
+		vector<Node>* result = new vector<Node>();
+		/// TODO
+		return result;
+	}
+	else {
+		cout << "\nERROR : the given id does not exist in this family. \n";
+		return nullptr;
+	}
+}
+
+vector<Node>* Genealogy::getAncestorsByEyes(int nodeId)
+{
+	if (exists(nodeId))
+	{
+		EyeColor color = this->getNode(nodeId)->getEyeColor();
+		
+		return nullptr;
+	}
+	else {
+		cout << "\nERROR : the given id does not exist in this family. \n";
+		return nullptr;
+	}
+
+}
 
 float Genealogy::meanAge()
 {
@@ -175,6 +272,7 @@ void Genealogy::printGenealogy(bool details)
 		else
 			cout << " - ";
 	}
+	cout << "\n";
 }
 
 bool Genealogy::exists(int id)
