@@ -2,7 +2,7 @@
 
 #include "Machineable.h"
 
-enum PistonPieceType { TETE, JUPE, AXE };
+enum PistonPieceType { HEAD, SKIRT, AXIS };
 
 template<PistonPieceType type>
 class PistonPiece : public Machineable {
@@ -11,6 +11,6 @@ public:
 	virtual ~PistonPiece() = default;
 };
 
-typedef PistonPiece<PistonPieceType::TETE> PistonTete;
-typedef PistonPiece<PistonPieceType::JUPE> PistonJupe;
-typedef PistonPiece<PistonPieceType::AXE> PistonAxe;
+typedef PistonPiece<PistonPieceType::HEAD> PistonHead;
+typedef PistonPiece<PistonPieceType::SKIRT> PistonSkirt;
+typedef PistonPiece<PistonPieceType::AXIS> PistonAxis;

@@ -4,13 +4,13 @@
 
 class Piston {
 public:
-	Piston(const PistonTete* tete, const PistonJupe* jupe, const PistonAxe* axe);
+	Piston(const PistonHead* head, const PistonSkirt* skirt, const PistonAxis* axis);
 	virtual ~Piston();
 
 private:
 
-	const PistonTete* tete;
-	const PistonJupe* jupe;
-	const PistonAxe* axe;
+	const PistonHead* head;
+	const PistonSkirt* skirt;
+	const PistonAxis* axis;
 };
 

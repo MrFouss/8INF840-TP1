@@ -6,9 +6,9 @@
 #include <iostream>
 #include <string>
 
-const std::string SortMachine::jupeOutputName = "SortMachineJupeOutput";
-const std::string SortMachine::axeOutputName = "SortMachineAxeOutput";
-const std::string SortMachine::teteOutputName = "SortMachineTeteOutput";
+const std::string SortMachine::skirtOutputName = "SortMachineskirtOutput";
+const std::string SortMachine::axisOutputName = "SortMachineAxisOutput";
+const std::string SortMachine::headOutputName = "SortMachineHeadOutput";
 const std::string SortMachine::inputName = "SortMachineInput";
 
 SortMachine::SortMachine(std::string name, float workTime, float breakProbability, float repairTime) :
@@ -22,16 +22,16 @@ SortMachine::~SortMachine() {
 	}
 }
 
-void SortMachine::linkJupeOutput(MachineDataLink<PistonJupe>* output) { linkOutput(jupeOutputName, output); }
+void SortMachine::linkskirtOutput(MachineDataLink<PistonSkirt>* output) { linkOutput(skirtOutputName, output); }
 
-void SortMachine::linkAxeOutput(MachineDataLink<PistonAxe>* output) { linkOutput(axeOutputName, output); }
+void SortMachine::linkAxisOutput(MachineDataLink<PistonAxis>* output) { linkOutput(axisOutputName, output); }
 
-void SortMachine::linkTeteOutput(MachineDataLink<PistonTete>* output) { linkOutput(teteOutputName, output); }
+void SortMachine::linkHeadOutput(MachineDataLink<PistonHead>* output) { linkOutput(headOutputName, output); }
 
 void SortMachine::linkInput(MachineDataLink<Machineable>* input) { IMachine::linkInput(inputName, input); }
 
 bool SortMachine::canStartNextJob() {
-	return areLinksConnected() && !getInputLink()->isEmpty() && workInProgress == NULL;
+	return areLinksConnected() && !getInputLink()->isEmpty() && workInProgress == 0;
 }
 
 void SortMachine::startNextJob() {
@@ -40,21 +40,21 @@ void SortMachine::startNextJob() {
 }
 
 void SortMachine::finishCurrentJob() {
-	assert(areLinksConnected() && workInProgress != NULL);
+	assert(areLinksConnected() && workInProgress != 0);
 
 	std::string message = getName() + " sorted a ";
 
-	if (dynamic_cast<PistonAxe*>(workInProgress) != NULL) {
-		getAxeOutputLink()->push(dynamic_cast<PistonAxe*>(workInProgress));
-		message += "axe";
+	if (dynamic_cast<PistonAxis*>(workInProgress) != 0) {
+		getAxisOutputLink()->push(dynamic_cast<PistonAxis*>(workInProgress));
+		message += "axis";
 	}
-	else if (dynamic_cast<PistonJupe*>(workInProgress) != NULL) {
-		getJupeOutputLink()->push(dynamic_cast<PistonJupe*>(workInProgress));
-		message += "jupe";
+	else if (dynamic_cast<PistonSkirt*>(workInProgress) != 0) {
+		getskirtOutputLink()->push(dynamic_cast<PistonSkirt*>(workInProgress));
+		message += "skirt";
 	}
-	else if (dynamic_cast<PistonTete*>(workInProgress) != NULL) {
-		getTeteOutputLink()->push(dynamic_cast<PistonTete*>(workInProgress));
-		message += "tete";
+	else if (dynamic_cast<PistonHead*>(workInProgress) != 0) {
+		getHeadOutputLink()->push(dynamic_cast<PistonHead*>(workInProgress));
+		message += "head";
 	}
 	else {
 		std::cerr << getName() << " : Unrecognized type" << std::endl;
@@ -63,19 +63,19 @@ void SortMachine::finishCurrentJob() {
 
 	EventManager& em = EventManager::getInstance();
 	em.addEvent(new LogEvent(em.getTime(), message));
-	workInProgress = NULL;
+	workInProgress = 0;
 }
 
-MachineDataLink<PistonTete>* SortMachine::getTeteOutputLink() {
-	return getOutputLink<PistonTete>(teteOutputName);
+MachineDataLink<PistonHead>* SortMachine::getHeadOutputLink() {
+	return getOutputLink<PistonHead>(headOutputName);
 }
 
-MachineDataLink<PistonJupe>* SortMachine::getJupeOutputLink() {
-	return getOutputLink<PistonJupe>(jupeOutputName);
+MachineDataLink<PistonSkirt>* SortMachine::getskirtOutputLink() {
+	return getOutputLink<PistonSkirt>(skirtOutputName);
 }
 
-MachineDataLink<PistonAxe>* SortMachine::getAxeOutputLink() {
-	return getOutputLink<PistonAxe>(axeOutputName);
+MachineDataLink<PistonAxis>* SortMachine::getAxisOutputLink() {
+	return getOutputLink<PistonAxis>(axisOutputName);
 }
 
 MachineDataLink<Machineable>* SortMachine::getInputLink() {
@@ -84,7 +84,7 @@ MachineDataLink<Machineable>* SortMachine::getInputLink() {
 
 inline bool SortMachine::areLinksConnected() {
 	return hasInputLink(inputName)
-		&& hasOutputLink(jupeOutputName)
-		&& hasOutputLink(teteOutputName)
-		&& hasOutputLink(axeOutputName);
+		&& hasOutputLink(skirtOutputName)
+		&& hasOutputLink(headOutputName)
+		&& hasOutputLink(axisOutputName);
 }

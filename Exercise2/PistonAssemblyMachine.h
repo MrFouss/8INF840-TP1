@@ -11,9 +11,9 @@ public:
 	PistonAssemblyMachine(std::string name, float workTime, float breakProbability, float repairTime);
 	virtual ~PistonAssemblyMachine();
 
-	void linkJupeInput(MachineDataLink<PistonJupe>* input);
-	void linkAxeInput(MachineDataLink<PistonAxe>* input);
-	void linkTeteInput(MachineDataLink<PistonTete>* input);
+	void linkskirtInput(MachineDataLink<PistonSkirt>* input);
+	void linkAxisInput(MachineDataLink<PistonAxis>* input);
+	void linkHeadInput(MachineDataLink<PistonHead>* input);
 	void linkOutput(MachineDataLink<Piston>* output);
 
 protected:
@@ -24,20 +24,20 @@ protected:
 
 private:
 
-	MachineDataLink<PistonTete>* getTeteInputLink();
-	MachineDataLink<PistonJupe>* getJupeInputLink();
-	MachineDataLink<PistonAxe>* getAxeInputLink();
+	MachineDataLink<PistonHead>* getHeadInputLink();
+	MachineDataLink<PistonSkirt>* getskirtInputLink();
+	MachineDataLink<PistonAxis>* getAxisInputLink();
 	MachineDataLink<Piston>* getOutputLink();
 	bool areLinksConnected();
 
 	// pieces beeing assembled
-	PistonTete* teteInProgress;
-	PistonJupe* jupeInProgress;
-	PistonAxe* axeInProgress;
+	PistonHead* headInProgress;
+	PistonSkirt* skirtInProgress;
+	PistonAxis* axisInProgress;
 
-	static const std::string jupeInputName;
-	static const std::string axeInputName;
-	static const std::string teteInputName;
+	static const std::string skirtInputName;
+	static const std::string axisInputName;
+	static const std::string headInputName;
 	static const std::string outputName;
 };
 

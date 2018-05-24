@@ -3,40 +3,40 @@
 #include "EventManager.h"
 #include "LogEvent.h"
 
-const std::string PistonAssemblyMachine::jupeInputName = "PistonAssemblyMachineJupeInput";
-const std::string PistonAssemblyMachine::axeInputName = "PistonAssemblyMachineAxeInput";
-const std::string PistonAssemblyMachine::teteInputName = "PistonAssemblyMachineTeteInput";
+const std::string PistonAssemblyMachine::skirtInputName = "PistonAssemblyMachineskirtInput";
+const std::string PistonAssemblyMachine::axisInputName = "PistonAssemblyMachineAxisInput";
+const std::string PistonAssemblyMachine::headInputName = "PistonAssemblyMachineHeadInput";
 const std::string PistonAssemblyMachine::outputName = "PistonAssemblyMachineOutput";
 
 PistonAssemblyMachine::PistonAssemblyMachine(std::string name, float workTime, float breakProbability, float repairTime) :
 	IMachine(name, workTime, breakProbability, repairTime),
-	teteInProgress(0),
-	jupeInProgress(0),
-	axeInProgress(0) 
+	headInProgress(0),
+	skirtInProgress(0),
+	axisInProgress(0) 
 {}
 
 PistonAssemblyMachine::~PistonAssemblyMachine() {
-	if (teteInProgress != 0) {
-		delete teteInProgress;
+	if (headInProgress != 0) {
+		delete headInProgress;
 	}
-	if (jupeInProgress != 0) {
-		delete jupeInProgress;
+	if (skirtInProgress != 0) {
+		delete skirtInProgress;
 	}
-	if (axeInProgress != 0) {
-		delete axeInProgress;
+	if (axisInProgress != 0) {
+		delete axisInProgress;
 	}
 }
 
-void PistonAssemblyMachine::linkJupeInput(MachineDataLink<PistonJupe>* input) {
-	linkInput(jupeInputName, input); 
+void PistonAssemblyMachine::linkskirtInput(MachineDataLink<PistonSkirt>* input) {
+	linkInput(skirtInputName, input); 
 }
 
-void PistonAssemblyMachine::linkAxeInput(MachineDataLink<PistonAxe>* input) { 
-	linkInput(axeInputName, input); 
+void PistonAssemblyMachine::linkAxisInput(MachineDataLink<PistonAxis>* input) { 
+	linkInput(axisInputName, input); 
 }
 
-void PistonAssemblyMachine::linkTeteInput(MachineDataLink<PistonTete>* input) { 
-	linkInput(teteInputName, input);
+void PistonAssemblyMachine::linkHeadInput(MachineDataLink<PistonHead>* input) { 
+	linkInput(headInputName, input);
 }
 
 void PistonAssemblyMachine::linkOutput(MachineDataLink<Piston>* output) {
@@ -45,39 +45,39 @@ void PistonAssemblyMachine::linkOutput(MachineDataLink<Piston>* output) {
 
 bool PistonAssemblyMachine::canStartNextJob() {
 	return areLinksConnected() 
-		&& !getTeteInputLink()->isEmpty() 
-		&& !getAxeInputLink()->isEmpty() 
-		&& !getJupeInputLink()->isEmpty();
+		&& !getHeadInputLink()->isEmpty() 
+		&& !getAxisInputLink()->isEmpty()
+		&& !getskirtInputLink()->isEmpty();
 }
 
 void PistonAssemblyMachine::startNextJob() {
 	assert(canStartNextJob());
-	jupeInProgress = getJupeInputLink()->pop();
-	teteInProgress = getTeteInputLink()->pop();
-	axeInProgress = getAxeInputLink()->pop();
+	skirtInProgress = getskirtInputLink()->pop();
+	headInProgress = getHeadInputLink()->pop();
+	axisInProgress = getAxisInputLink()->pop();
 }
 
 void PistonAssemblyMachine::finishCurrentJob() {
-	assert(areLinksConnected() && jupeInProgress != 0 && teteInProgress != 0 && axeInProgress != 0);
-	Piston* piston = new Piston(teteInProgress, jupeInProgress, axeInProgress);
-	teteInProgress = 0;
-	jupeInProgress = 0;
-	axeInProgress = 0;
+	assert(areLinksConnected() && skirtInProgress != 0 && headInProgress != 0 && axisInProgress != 0);
+	Piston* piston = new Piston(headInProgress, skirtInProgress, axisInProgress);
+	headInProgress = 0;
+	skirtInProgress = 0;
+	axisInProgress = 0;
 	getOutputLink()->push(piston);
 	EventManager& em = EventManager::getInstance();
 	em.addEvent(new LogEvent(em.getTime(), getName() + " assembled a piston"));
 }
 
-MachineDataLink<PistonTete>* PistonAssemblyMachine::getTeteInputLink() {
-	return getInputLink<PistonTete>(teteInputName);
+MachineDataLink<PistonHead>* PistonAssemblyMachine::getHeadInputLink() {
+	return getInputLink<PistonHead>(headInputName);
 }
 
-MachineDataLink<PistonJupe>* PistonAssemblyMachine::getJupeInputLink() {
-	return getInputLink<PistonJupe>(jupeInputName);
+MachineDataLink<PistonSkirt>* PistonAssemblyMachine::getskirtInputLink() {
+	return getInputLink<PistonSkirt>(skirtInputName);
 }
 
-MachineDataLink<PistonAxe>* PistonAssemblyMachine::getAxeInputLink() {
-	return getInputLink<PistonAxe>(axeInputName);
+MachineDataLink<PistonAxis>* PistonAssemblyMachine::getAxisInputLink() {
+	return getInputLink<PistonAxis>(axisInputName);
 }
 
 MachineDataLink<Piston>* PistonAssemblyMachine::getOutputLink() {
@@ -86,7 +86,7 @@ MachineDataLink<Piston>* PistonAssemblyMachine::getOutputLink() {
 
 bool PistonAssemblyMachine::areLinksConnected() {
 	return hasOutputLink(outputName)
-		&& hasInputLink(jupeInputName)
-		&& hasInputLink(teteInputName)
-		&& hasInputLink(axeInputName);
+		&& hasInputLink(skirtInputName)
+		&& hasInputLink(headInputName)
+		&& hasInputLink(axisInputName);
 }

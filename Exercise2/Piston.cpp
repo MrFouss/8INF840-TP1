@@ -2,16 +2,16 @@
 
 #include <assert.h>
 
-Piston::Piston(const PistonTete* tete, const PistonJupe* jupe, const PistonAxe* axe) :
-	tete(tete),
-	jupe(jupe),
-	axe(axe)
+Piston::Piston(const PistonHead* head, const PistonSkirt* skirt, const PistonAxis* axis) :
+	head(head),
+	skirt(skirt),
+	axis(axis)
 {
-	assert(tete->isMachined() && jupe->isMachined() && axe->isMachined());
+	assert(head->isMachined() && skirt->isMachined() && axis->isMachined());
 }
 
 Piston::~Piston() {
-	delete tete;
-	delete jupe;
-	delete axe;
+	delete head;
+	delete skirt;
+	delete axis;
 }

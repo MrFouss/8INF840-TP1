@@ -13,7 +13,7 @@ using namespace std;
 int main() { 
 
 	// the number of raw piston pieces initially as input
-	int inputSize = 100;
+	int inputSize = 3;
 
 	// init RNG
 	srand(time(0));
@@ -22,52 +22,52 @@ int main() {
 
 	SortMachine sortMachine("SortMachine", 1, 0, 7);
 	MachineDataLink<Machineable> sortInput;
-	MachineDataLink<PistonAxe> sortOutputAxe;
-	MachineDataLink<PistonJupe> sortOutputJupe;
-	MachineDataLink<PistonTete> sortOutputTete;
-	sortMachine.linkAxeOutput(&sortOutputAxe);
-	sortMachine.linkJupeOutput(&sortOutputJupe);
-	sortMachine.linkTeteOutput(&sortOutputTete);
+	MachineDataLink<PistonAxis> sortOutputAxis;
+	MachineDataLink<PistonSkirt> sortOutputskirt;
+	MachineDataLink<PistonHead> sortOutputHead;
+	sortMachine.linkAxisOutput(&sortOutputAxis);
+	sortMachine.linkskirtOutput(&sortOutputskirt);
+	sortMachine.linkHeadOutput(&sortOutputHead);
 	sortMachine.linkInput(&sortInput);
 
 	// setup individual piston piece machines
 
-	PistonPieceMachine<PistonPieceType::TETE> teteMachine("TeteMachine", 2, 0, 0);
-	MachineDataLink<PistonTete> pieceMachineOutputTete;
-	teteMachine.linkInput(&sortOutputTete);
-	teteMachine.linkOutput(&pieceMachineOutputTete);
+	PistonPieceMachine<PistonPieceType::HEAD> headMachine("HeadMachine", 2, 0, 0);
+	MachineDataLink<PistonHead> pieceMachineOutputHead;
+	headMachine.linkInput(&sortOutputHead);
+	headMachine.linkOutput(&pieceMachineOutputHead);
 
-	PistonPieceMachine<PistonPieceType::AXE> axeMachine("AxeMachine", 2, 0, 0);
-	MachineDataLink<PistonAxe> pieceMachineOutputAxe;
-	axeMachine.linkInput(&sortOutputAxe);
-	axeMachine.linkOutput(&pieceMachineOutputAxe);
+	PistonPieceMachine<PistonPieceType::AXIS> axisMachine("AxisMachine", 2, 0, 0);
+	MachineDataLink<PistonAxis> pieceMachineOutputAxis;
+	axisMachine.linkInput(&sortOutputAxis);
+	axisMachine.linkOutput(&pieceMachineOutputAxis);
 
-	PistonPieceMachine<PistonPieceType::JUPE> jupeMachine("JupeMachine", 2, 0, 0);
-	MachineDataLink<PistonJupe> pieceMachineOutputJupe;
-	jupeMachine.linkInput(&sortOutputJupe);
-	jupeMachine.linkOutput(&pieceMachineOutputJupe);
+	PistonPieceMachine<PistonPieceType::SKIRT> skirtMachine("skirtMachine", 2, 0, 0);
+	MachineDataLink<PistonSkirt> pieceMachineOutputskirt;
+	skirtMachine.linkInput(&sortOutputskirt);
+	skirtMachine.linkOutput(&pieceMachineOutputskirt);
 
 	// setup piston assembly machine
 
 	PistonAssemblyMachine assemblyMachine("AssemblyMachine", 5, 0, 0);
 	MachineDataLink<Piston> pistonOutput;
-	assemblyMachine.linkAxeInput(&pieceMachineOutputAxe);
-	assemblyMachine.linkJupeInput(&pieceMachineOutputJupe);
-	assemblyMachine.linkTeteInput(&pieceMachineOutputTete);
+	assemblyMachine.linkAxisInput(&pieceMachineOutputAxis);
+	assemblyMachine.linkskirtInput(&pieceMachineOutputskirt);
+	assemblyMachine.linkHeadInput(&pieceMachineOutputHead);
 	assemblyMachine.linkOutput(&pistonOutput);
 
 	// fill input link
 
 	for (int i = 0; i < inputSize; ++i) {
-		switch (rand() % 3) {
+		switch (i) {
 		case 0:
-			sortInput.push(new PistonAxe());
+			sortInput.push(new PistonAxis());
 			break;
 		case 1:
-			sortInput.push(new PistonJupe());
+			sortInput.push(new PistonSkirt());
 			break;
 		case 2:
-			sortInput.push(new PistonTete());
+			sortInput.push(new PistonHead());
 			break;
 		}
 	}
