@@ -1,17 +1,6 @@
-#include "Genealogy.h"
+#include "utils.h"
 
 using namespace std;
-
-void printNodeVector(vector<Node>* n)
-{
-	for (auto it = n->begin(); it != n->end(); ++it)
-		cout << (*it).toString(false) << "\n";
-}
-void printNodePtrVector(vector<Node*>* n)
-{
-	for (auto it = n->begin(); it != n->end(); ++it)
-		cout << (**it).toString(false) << "\n";
-}
 
 int main() {
 
@@ -47,13 +36,15 @@ int main() {
 	family->printGenealogy(true);
 
 	// 4. lister les personnes ayant la couleur d'yeux indiquée
-	vector<Node>* blue = family->getGenealogyByEyes(EyeColor::blue);
-	cout << "\nPersonnes ayant les yeux bleus :\n";
-	printNodeVector(blue);
+	EyeColor color = itoEyeColor(getChosenColor());
+	vector<Node>* familyByColor = family->getGenealogyByEyes(color);
+	cout << "\nPersonnes ayant les yeux " << eyeColorToString(color) << " :\n";
+	printNodeVector(familyByColor);
 
 	// 5. liste les ancêtres ayant la même couleur d'yeux que la personne choisie
-	vector<Node>* ancestorsBrown = family->getAncestorsByEyes(5);
-	cout << "\nAncetres de " << family->getNode(5)->toString(false) << " ayant les memes yeux :\n";
+	int chosenId = getChosenMemberId(family);
+	vector<Node>* ancestorsBrown = family->getAncestorsByEyes(chosenId);
+	cout << "\nAncetres de " << family->getNode(chosenId)->toString(false) << " ayant les memes yeux :\n";
 	printNodeVector(ancestorsBrown);
 
 	// 6. moyenne d'âge de la famille

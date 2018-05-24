@@ -62,7 +62,7 @@ public:
 	// print all genealogy ; if details is true, all informations will be printed, otherwise, only firstname/name
 	void printGenealogy(bool details);
 
-	// return true if the given id exists
+	// return true if the given id exists in the family
 	bool exists(int id);
 
 	// return index in vector of the given id ; -1 if an error occured

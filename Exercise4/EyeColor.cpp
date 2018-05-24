@@ -3,10 +3,10 @@ std::string eyeColorToString(EyeColor eye) {
 	using namespace std;
 
 	switch (eye) {
-	case blue:	return string("blue");
-	case green: return string("green");
-	case brown: return string("brown");
-	case black: return string("blue");
+	case blue:	return string("bleu");
+	case green: return string("vert");
+	case brown: return string("marron");
+	case black: return string("noir");
 	case none:  return string("none");
 	default:	return string("UNKNOWN COLOR");
 	}
