@@ -86,11 +86,13 @@ Node* Genealogy::getNode(int id)
 
 Node* Genealogy::getNode(string name, string firstname)
 {
-	Node* result = nullptr;
+	for (auto it = tab->begin() + 1; it != tab->end(); ++it)
+	{
+		if ((*it).getName() == name && (*it).getFirstname() == firstname)
+			return &(*it);
+	}
 
-	//tree traversal
-
-	return result;
+	return nullptr;
 }
 
 int Genealogy::getSize()
@@ -186,35 +188,22 @@ vector<Node>* Genealogy::getGenealogyByEyes(EyeColor color)
 	return result;
 }
 
-vector<Node>* Genealogy::getAncestors(int nodeId)
-{
-	if (exists(nodeId))
-	{
-		vector<Node>* result = new vector<Node>();
-		/// TODO
-		return result;
-	}
-	else {
-		cout << "\nERROR : the given id does not exist in this family. \n";
-		return nullptr;
-	}
-}
-
 vector<Node>* Genealogy::getAncestorsByEyes(int nodeId)
 {
 	if (exists(nodeId))
 	{
 		EyeColor color = this->getNode(nodeId)->getEyeColor();
 		vector<Node*>* ancestors = getAncestors(nodeId, INORDER);
+		vector<Node>* result = new vector<Node>();
 
 		for (auto it = ancestors->begin(); it != ancestors->end(); ++it)
 		{
 			Node* n = (Node*)*it;
-			//if(n->getEyeColor() != color)
-			//	ancestors
+			if (n->getEyeColor() == color)
+				result->push_back(*n);
 		}
 
-		return nullptr;
+		return result;
 	}
 	else {
 		cout << "\nERROR : the given id does not exist in this family. \n";
@@ -223,15 +212,25 @@ vector<Node>* Genealogy::getAncestorsByEyes(int nodeId)
 
 }
 
-float Genealogy::meanAge()
+int Genealogy::meanAge()
 {
-	int membersCount = 0;
-	int sumAges = 0;
+	time_t t = time(0);
+	struct tm now;
+	localtime_s(&now, &t);
 
-	//tree traversal
+	int membersCount = this->getSize();
+	int sumAges = 0;
+	int currentYear = now.tm_year +1900; //time describes time since 1900
+
+	for (auto it = tab->begin(); it != tab->end(); ++it)
+	{
+		Node n = (*it);
+		if (n.getId() != -1)
+			sumAges += currentYear - n.getBirthyear();
+	}
 
 	if (membersCount != 0)
-		return (sumAges / membersCount);
+		return round((float)sumAges / membersCount);
 	else
 		return 0;
 }

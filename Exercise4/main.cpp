@@ -13,21 +13,22 @@ int main() {
 	Genealogy* family = new Genealogy();
 
 	// Load a family tree
-	family->loadFromCSV("test.csv");
-	family->addMember("", "H", 0, none, 6, true);
-	family->addMember("", "I", 0, none, 5, false);
-	family->printGenealogy(false);
+	family->loadFromCSV("jon-snow.csv");
+	family->printGenealogy(true);
 
 	// ----- sujet de TP -----
 
 	// 1. size of the tree
 	//cout << "La famille compte " << family->getSize() << " membres\n";
 
-	// 2. liste des ascendants d'une personne
+	// 2. liste des ascendants d'une personne ayant la même couleur d'yeux
+	//vector<Node>* ancestorsSameEyes = family->getAncestorsByEyes(1);
+	//printNodeVector(ancestorsSameEyes);
 
 	// 3. add a member
 	//family->addMember("Targaryen", "Jachaerys II", 1922, blue);
 	//family->addMember("Targaryen", "Shaera", 1926, blue, 5, false);
+	//family->printGenealogy(false);
 
 	// 4. lister les personnes ayant la couleur d'yeux indiquée
 	//vector<Node>* blue = family->getGenealogyByEyes(EyeColor::blue);
@@ -42,7 +43,7 @@ int main() {
 	//	cout << (*it).toString(false) << "\n";
 
 	// 6. moyenne d'âge de la famille
-	//cout << "L'âge moyen dans la famille est de " << family->meanAge() << " ans.\n";
+	cout << "L'age moyen dans la famille est d'environ " << family->meanAge() << " ans.\n";
 
 	// ----- utils -----
 

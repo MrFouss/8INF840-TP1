@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <time.h>
 
 enum TreeTraversal { INORDER, PREORDER, POSTORDER };
 
@@ -34,7 +35,7 @@ public:
 	// get the size of the family tree
 	int getSize();
 
-	// type is INORDER, PREORDER or POSTORDER ; person is the target
+	// for a given id return a list of all ancestors, including the given person
 	vector<Node*>* getAncestors(int node, TreeTraversal type);
 
 	// add a new member to the family ; return 0 if success, -1 if error
@@ -44,14 +45,11 @@ public:
 	// for a given color, list all members of the family with the same eye color
 	vector<Node>* getGenealogyByEyes(EyeColor color);
 
-	// for a given id return a list of all ancestors, including the given person
-	vector<Node>* getAncestors(int nodeId);
-
 	// list all ancestors with the same eye color, including the given person
 	vector<Node>* getAncestorsByEyes(int nodeId);
 
 	// calculation of the mean age of the family
-	float meanAge();
+	int meanAge();
 
 	// load a prebuilt tree from txt file
 	void loadFromCSV(char* filepath);
