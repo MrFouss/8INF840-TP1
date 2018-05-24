@@ -4,22 +4,15 @@ class IMachine;
 
 class MachineLink {
 public:
-	MachineLink():
-		inputMachine(0), outputMachine(0) {}
-
+	MachineLink();
 	virtual ~MachineLink() = default;
 
 protected:
 
 	friend IMachine;
 
-	void setInputMachine(IMachine* input) {
-		inputMachine = input;
-	}
-
-	void setOutputMachine(IMachine* output) {
-		outputMachine = output;
-	}
+	void setInputMachine(IMachine* input);
+	void setOutputMachine(IMachine* output);
 
 	IMachine* inputMachine;
 	IMachine* outputMachine;

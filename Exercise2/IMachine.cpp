@@ -2,7 +2,6 @@
 
 #include "EventManager.h"
 #include "LogEvent.h"
-
 #include "MachineDataLink.h"
 
 IMachine::IMachine(std::string name, float workTime, float breakProbability, float repairTime) :
@@ -15,6 +14,10 @@ IMachine::IMachine(std::string name, float workTime, float breakProbability, flo
 	inputLinks(),
 	outputLinks() 
 {}
+
+std::string IMachine::getName() {
+	return name;
+}
 
 void IMachine::onInputLinkUpdated() {
 	// if the machine is asleep (waiting for new inputs)

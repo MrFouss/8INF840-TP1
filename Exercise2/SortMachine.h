@@ -10,15 +10,8 @@ class MachineDataLink;
 // a machine that sorts machinable pieces between axe, jupe and tete piston pieces
 class SortMachine : public IMachine {
 public:
-	SortMachine(std::string name, float workTime, float breakProbability, float repairTime) :
-		IMachine(name, workTime, breakProbability, repairTime),
-		workInProgress(0)
-	{}
-	virtual ~SortMachine() {
-		if (workInProgress != 0) {
-			delete workInProgress;
-		}
-	}
+	SortMachine(std::string name, float workTime, float breakProbability, float repairTime);
+	virtual ~SortMachine();
 
 	void linkJupeOutput(MachineDataLink<PistonJupe>* output);
 	void linkAxeOutput(MachineDataLink<PistonAxe>* output);

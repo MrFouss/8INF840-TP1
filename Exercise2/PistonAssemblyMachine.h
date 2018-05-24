@@ -8,18 +8,13 @@
 
 class PistonAssemblyMachine : public IMachine {
 public:
-	PistonAssemblyMachine(std::string name, float workTime, float breakProbability, float repairTime) :
-		IMachine(name, workTime, breakProbability, repairTime),
-		teteInProgress(0),
-		jupeInProgress(0),
-		axeInProgress(0)
-	{}
+	PistonAssemblyMachine(std::string name, float workTime, float breakProbability, float repairTime);
 	virtual ~PistonAssemblyMachine();
 
-	void linkJupeInput(MachineDataLink<PistonJupe>* input) { linkInput(jupeInputName, input); }
-	void linkAxeInput(MachineDataLink<PistonAxe>* input) { linkInput(axeInputName, input); }
-	void linkTeteInput(MachineDataLink<PistonTete>* input) { linkInput(teteInputName, input); }
-	void linkOutput(MachineDataLink<Piston>* output) { IMachine::linkOutput(outputName, output); }
+	void linkJupeInput(MachineDataLink<PistonJupe>* input);
+	void linkAxeInput(MachineDataLink<PistonAxe>* input);
+	void linkTeteInput(MachineDataLink<PistonTete>* input);
+	void linkOutput(MachineDataLink<Piston>* output);
 
 protected:
 

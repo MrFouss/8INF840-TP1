@@ -11,6 +11,17 @@ const std::string SortMachine::axeOutputName = "SortMachineAxeOutput";
 const std::string SortMachine::teteOutputName = "SortMachineTeteOutput";
 const std::string SortMachine::inputName = "SortMachineInput";
 
+SortMachine::SortMachine(std::string name, float workTime, float breakProbability, float repairTime) :
+	IMachine(name, workTime, breakProbability, repairTime),
+	workInProgress(0) 
+{}
+
+SortMachine::~SortMachine() {
+	if (workInProgress != 0) {
+		delete workInProgress;
+	}
+}
+
 void SortMachine::linkJupeOutput(MachineDataLink<PistonJupe>* output) { linkOutput(jupeOutputName, output); }
 
 void SortMachine::linkAxeOutput(MachineDataLink<PistonAxe>* output) { linkOutput(axeOutputName, output); }

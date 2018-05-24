@@ -8,6 +8,13 @@ const std::string PistonAssemblyMachine::axeInputName = "PistonAssemblyMachineAx
 const std::string PistonAssemblyMachine::teteInputName = "PistonAssemblyMachineTeteInput";
 const std::string PistonAssemblyMachine::outputName = "PistonAssemblyMachineOutput";
 
+PistonAssemblyMachine::PistonAssemblyMachine(std::string name, float workTime, float breakProbability, float repairTime) :
+	IMachine(name, workTime, breakProbability, repairTime),
+	teteInProgress(0),
+	jupeInProgress(0),
+	axeInProgress(0) 
+{}
+
 PistonAssemblyMachine::~PistonAssemblyMachine() {
 	if (teteInProgress != 0) {
 		delete teteInProgress;
@@ -18,6 +25,22 @@ PistonAssemblyMachine::~PistonAssemblyMachine() {
 	if (axeInProgress != 0) {
 		delete axeInProgress;
 	}
+}
+
+void PistonAssemblyMachine::linkJupeInput(MachineDataLink<PistonJupe>* input) {
+	linkInput(jupeInputName, input); 
+}
+
+void PistonAssemblyMachine::linkAxeInput(MachineDataLink<PistonAxe>* input) { 
+	linkInput(axeInputName, input); 
+}
+
+void PistonAssemblyMachine::linkTeteInput(MachineDataLink<PistonTete>* input) { 
+	linkInput(teteInputName, input);
+}
+
+void PistonAssemblyMachine::linkOutput(MachineDataLink<Piston>* output) {
+	IMachine::linkOutput(outputName, output);
 }
 
 bool PistonAssemblyMachine::canStartNextJob() {
