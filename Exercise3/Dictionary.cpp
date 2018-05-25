@@ -24,11 +24,11 @@ const Dictionary& Dictionary::operator=(const Dictionary& dict)
 	return *this;
 }
 
-void Dictionary::addWord(const string word)
+bool Dictionary::addWord(const string word)
 {
 	if (word.size() == 0 || isContainingWord(word))
 	{
-		return;
+		return false;
 	}
 
 	Node* parent = 0;
@@ -79,13 +79,14 @@ void Dictionary::addWord(const string word)
 	}
 
 	parent->isEndOfWord = true;
+	return true;
 }
 
-void Dictionary::removeWord(const string word)
+bool Dictionary::removeWord(const string word)
 {
 	if (word.size() == 0 || !isContainingWord(word))
 	{
-		return;
+		return false;
 	}
 
 	stack<Node*> parentStack;
@@ -117,7 +118,7 @@ void Dictionary::removeWord(const string word)
 	currentStack.top()->isEndOfWord = false;
 	if (currentStack.top()->nextLetter != 0)
 	{
-		return;
+		return true;
 	}
 
 	while (!currentStack.empty())
@@ -133,7 +134,7 @@ void Dictionary::removeWord(const string word)
 
 		if (current->isEndOfWord || current->nextLetter != 0)
 		{
-			return;
+			return true;
 		}
 
 		if (previous != 0)
@@ -154,6 +155,8 @@ void Dictionary::removeWord(const string word)
 
 		delete current;
 	}
+
+	return true;
 }
 
 void Dictionary::displayDictionary() const

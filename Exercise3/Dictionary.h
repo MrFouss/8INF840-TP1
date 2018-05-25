@@ -12,8 +12,8 @@ public:
 	~Dictionary();
 	const Dictionary& operator= (const Dictionary& dict);
 
-	void addWord(const string word);
-	void removeWord(const string word);
+	bool addWord(const string word);
+	bool removeWord(const string word);
 	
 	void displayDictionary() const;
 	bool isContainingWord(const string word) const;
