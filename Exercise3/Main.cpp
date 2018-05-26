@@ -20,6 +20,7 @@ void loadDictionary(Dictionary& dict)
 		cout << "| [5] test.dico" << endl;
 		cout << "Choice: ";
 		cin >> choice;
+		cout << endl;
 
 		switch (choice)
 		{
@@ -45,6 +46,7 @@ void loadDictionary(Dictionary& dict)
 			break;
 		default:
 			cout << "Wrong input! Try again." << endl << endl;
+			break;
 		}
 	} while (choice < 1 || choice > 5);
 
@@ -57,6 +59,51 @@ void loadDictionary(Dictionary& dict)
 	inputFile.close();
 }
 
+void addWordToDictionary(Dictionary& dict)
+{
+	string newWord;
+	cout << "New word to add: ";
+	cin >> newWord;
+	if (dict.addWord(newWord))
+	{
+		cout << "The word \""<< newWord << "\" has been successfully added." << endl << endl;
+	}
+	else
+	{
+		cout << "This word is already in the dictionary!" << endl << endl;
+	}
+}
+
+void removeWordInDictionary(Dictionary& dict)
+{
+	string word;
+	cout << "Word to remove: ";
+	cin >> word;
+	if (dict.removeWord(word))
+	{
+		cout << "The word \"" << word << "\" has been successfully removed." << endl << endl;
+	}
+	else
+	{
+		cout << "This word could not be removed!" << endl << endl;
+	}
+}
+
+void checkWordInDictionary(Dictionary& dict)
+{
+	string word;
+	cout << "Word to check: ";
+	cin >> word;
+	if (dict.isContainingWord(word))
+	{
+		cout << "The word \"" << word << "\" is in the dictionary." << endl << endl;
+	}
+	else
+	{
+		cout << "The word \"" << word << "\" is not in the dictionary." << endl << endl;
+	}
+}
+
 int main()
 {
 	Dictionary dict;
@@ -65,18 +112,42 @@ int main()
 
 	loadDictionary(dict);
 
-	dict.displayDictionary();
-	cout << endl;
-	dict.removeWord("arbre");
-	dict.displayDictionary();
-	cout << endl;
-	dict.removeWord("le");
-	dict.displayDictionary();
-	cout << endl;
-	dict.removeWord("abasse");
-	dict.displayDictionary();
-	cout << endl;
+	int choice;
 
-	system("pause");
+	do
+	{
+		cout << endl << "----------------------------------" << endl;
+		cout << "Please select what you want to do:" << endl;
+		cout << "| [1] Add a word" << endl;
+		cout << "| [2] Remove a word" << endl;
+		cout << "| [3] Check if a word is in the dictionary" << endl;
+		cout << "| [4] Display the dictionary" << endl;
+		cout << "| [0] Exit the program" << endl;
+		cout << "Choice: ";
+		cin >> choice;
+		cout << endl;
+
+		switch (choice)
+		{
+		case 0:
+			break;
+		case 1:
+			addWordToDictionary(dict);
+			break;
+		case 2:
+			removeWordInDictionary(dict);
+			break;
+		case 3:
+			checkWordInDictionary(dict);
+			break;
+		case 4:
+			dict.displayDictionary();
+			break;
+		default:
+			cout << "Wrong input! Try again." << endl << endl;
+			break;
+		}
+	} while (choice != 0);
+
 	return 0;
 }
