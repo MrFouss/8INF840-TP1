@@ -1,12 +1,7 @@
 #include "utils.h"
 
 
-void printNodeVector(vector<Node>* n)
-{
-	for (auto it = n->begin(); it != n->end(); ++it)
-		cout << (*it).toString(false) << "\n";
-}
-void printNodePtrVector(vector<Node*>* n)
+void printNodeVector(vector<Node*>* n)
 {
 	for (auto it = n->begin(); it != n->end(); ++it)
 		cout << (**it).toString(false) << "\n";

@@ -22,6 +22,14 @@ private:
 	// add a new member to the family ; return 0 if success, -1 if error
 	int addMember(string name, string firstname, int birthyear, EyeColor eyes);
 
+	// get ancestor index
+	int getLeftAncestorIndex(int nodeIndex);
+	int getRightAncestorIndex(int nodeIndex);
+
+	// get ancestor ptr
+	Node* getLeftAncestor(int nodeId);
+	Node* getRightAncestor(int nodeId);
+
 public:
 	// constructor
 	Genealogy();
@@ -45,13 +53,13 @@ public:
 	vector<Node*>* getDescendants(int node);
 
 	// add a new member to the family ; return 0 if success, -1 if error
-	int addMember(string name, string firstname, int birthyear, EyeColor eyes, int knownParentId, bool left);
+	int addMember(string name, string firstname, int birthyear, EyeColor eyes, int knownDescendantID, bool left);
 
 	// for a given color, list all members of the family with the same eye color
-	vector<Node>* getGenealogyByEyes(EyeColor color);
+	vector<Node*>* getGenealogyByEyes(EyeColor color);
 
 	// list all ancestors with the same eye color, including the given person
-	vector<Node>* getAncestorsByEyes(int nodeId);
+	vector<Node*>* getAncestorsByEyes(int nodeId);
 
 	// calculation of the mean age of the family
 	int meanAge();

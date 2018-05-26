@@ -69,7 +69,7 @@ int main() {
 				cin >> chosenId;
 				ancestorsIN = family->getAncestors(chosenId, INORDER);
 				cout << "\nAncetres de " << family->getNode(chosenId)->toString(false) << " (INORDER) :\n";
-				printNodePtrVector(ancestorsIN);
+				printNodeVector(ancestorsIN);
 				break;
 
 			// Ascendance (preorder)
@@ -77,8 +77,8 @@ int main() {
 				cout << "Afficher l'ascendance (preorder) de [entrer l'ID de la personne] > ";
 				cin >> chosenId;
 				ancestorsPRE = family->getAncestors(chosenId, PREORDER);
-				cout << "\nAncetres de " << family->getNode(chosenId)->toString(false) << " (INORDER) :\n";
-				printNodePtrVector(ancestorsPRE);
+				cout << "\nAncetres de " << family->getNode(chosenId)->toString(false) << " (PREORDER) :\n";
+				printNodeVector(ancestorsPRE);
 				break;
 
 			// Ascendance (postorder)
@@ -86,8 +86,8 @@ int main() {
 				cout << "Afficher l'ascendance (postorder) de [entrer l'ID de la personne] > ";
 				cin >> chosenId;
 				ancestorsPOST = family->getAncestors(chosenId, POSTORDER);
-				cout << "\nAncetres de " << family->getNode(chosenId)->toString(false) << " (INORDER) :\n";
-				printNodePtrVector(ancestorsPOST);
+				cout << "\nAncetres de " << family->getNode(chosenId)->toString(false) << " (POSTORDER) :\n";
+				printNodeVector(ancestorsPOST);
 				break;
 
 			// Ajouter un membre à la famille
@@ -102,7 +102,7 @@ int main() {
 				eyeColorChoice = itoEyeColor(getChosenColor());
 				cout << "ID du descendant > ";
 				cin >> (int)childId;
-				cout << "De quel ancetre s'agit-il ? [0 pour le pere, 1 pour la mere] > ";
+				cout << "De quel ancetre s'agit-il ? [0 pour la mere, 1 pour le pere] > ";
 				cin >> (bool) boolChoice;
 				family->addMember(name.c_str(), firstname.c_str(), birthyear, eyeColorChoice, childId, boolChoice);
 				cout << "\nNouveau membre " << firstname << " " << name << " ajoute.\n";
@@ -134,7 +134,7 @@ int main() {
 				cout << "Afficher les descendants de [entrer l'ID de la personne] > ";
 				chosenId = getChosenMemberId(family);
 				cout << "\nListe des descendants de " << family->getNode(chosenId)->toString(false) << ":\n";
-				printNodePtrVector(family->getDescendants(chosenId));
+				printNodeVector(family->getDescendants(chosenId));
 				break;
 
 			// ERREUR : commande non reconnue
