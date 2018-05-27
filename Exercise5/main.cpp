@@ -40,8 +40,8 @@ int main()
 	cout << "\n";
 	*/
 
-	/*
-	//Test Distributed Double Chained List without Threading
+	
+	//Test Distributed Double Chained List
 	DistributedDoubleLinkedList* ddcl = new DistributedDoubleLinkedList();
 	ddcl->add(2);
 	ddcl->add(7);
@@ -55,12 +55,6 @@ int main()
 	ddcl->start->next->SommeIds();
 	ddcl->end->SommeIds();
 	ddcl->end->prev->prev->SommeIds();
-	*/
-
-	//Test Distributed Double Chained List with Threading
-	DistributedDoubleLinkedList* ddcl = new DistributedDoubleLinkedList();
-	ddcl->add(2);
-	cout <<"getThreadID() :" << ddcl->start->getThreadId()<< endl;
 
 	cout << "\n";
 	system("pause");

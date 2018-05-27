@@ -1,7 +1,8 @@
 #include <iostream>
 #include <thread>
-#include <stdio.h>
+#include <mutex>
 #include <Windows.h>
+
 
 #define BUFSIZE 100
 
@@ -14,81 +15,90 @@ private:
 	//The Node inside de double chained list
 	class Thread {
 	public:
-		int id;
+		//int id;
 		Thread* next;
 		Thread* prev;
-		Thread(const int& data_item, Thread* next_ptr = 0, Thread* prev_ptr = 0) : id(data_item), next(next_ptr), prev(prev_ptr) 
+		Thread(const int& data_item, Thread* next_ptr = 0, Thread* prev_ptr = 0) : /*id(data_item),*/ next(next_ptr), prev(prev_ptr) 
 		{
+			mySemaphore = CreateSemaphore(NULL, 0, 1, NULL);//the semaphore as 1 max capacity (like a mutex) but it start with 0 token available
 			stopRun = false;
 			getIdRequest = false;
-			SECURITY_ATTRIBUTES saAttr;
-			CreatePipe(hReadPipe, hWritePipe,&saAttr, 0);
-			thread myThread(&Thread::run, this);
+			tempThreadId = NULL;//temp value for communication between threads 
+								//pipe was to complicated on windows, and thread share the shame memory, so no need
+			thread myThread(&Thread::run, this, data_item);//we launch a thread with the method run, and an id
+														//the id is only knowed by the thread, it's like std::thread::id
+														//but it's a custom int id, std::thread::id can't easly be casted in int
 			myThread.detach();
 		}
 		~Thread()
 		{
 			StopThread();
+			CloseHandle(mySemaphore);
 		}
 
-		inline int SommeIds()
+		inline int SommeIds()//Ask for the sum of all ids in the list
 		{
-			cout << "Thread's Id : " << id << " asked for ids sum" << endl;
-			int leftSum = SommeIdsLeft();
-			int rightSum = SommeIdsRight();
-			int sommeIds = id + leftSum + rightSum;
-			cout << "Thread's Id : " << id << " calcul complet, result = " 
-				<< sommeIds <<" = " << leftSum <<" (left sum) + " << id <<" (my id) + " << rightSum <<" (right sum)"
+			cout << "Thread's Id : " << getThreadId() << " asked for ids sum" << endl;
+			int leftSum = SommeIdsLeft();//ask for the sum of the ids on the left
+			int rightSum = SommeIdsRight();//ask for the sum of the ids on the right
+			int sommeIds = getThreadId() + leftSum + rightSum;
+			cout << "Thread's Id : " << getThreadId() << " calcul complet, result = "
+				<< sommeIds <<" = " << leftSum <<" (left sum) + " << getThreadId() <<" (my id) + " << rightSum <<" (right sum)"
 				<< endl << endl << endl;
 			return sommeIds;
 		}
 
-		inline void StopThread() {
+		inline void StopThread() {//stop the while in the run fonction of the thread
 			stopRun = true;
 		}
 
 		inline int getThreadId() {
-			getIdRequest = true;
-			return ReadFromPipe();
+			tempThreadId = NULL;
+			getIdRequest = true; //we ask the the thread its id
+			WaitForSingleObject(mySemaphore, INFINITE); //we ask for the acces (acces release only when the thread have updated the value of tempThreadId)
+			int idFromThread = tempThreadId;
+			return idFromThread;
 		}
 
 	private:
-		inline int SommeIdsLeft() 
+		inline int SommeIdsLeft() //recursive function to have the sum of the ids of the predecessors
 		{
-			cout << "Thread's Id : " << id << " asked for ids sum of its left" << endl;
+			cout << "Thread's Id : " << getThreadId() << " asked for ids sum of its left" << endl;
 			int valueToReturn = 0;
-			if (prev == 0)
+			if (prev == 0) //no more predecessors, we stop
 			{
 				valueToReturn = 0;
-				cout << "Thread's Id : " << id << " left thread Id sum = " << valueToReturn <<" (no predecessor)" << endl;
+				cout << "Thread's Id : " << getThreadId() << " left thread Id sum = " << valueToReturn <<" (no predecessor)" << endl;
 			}
 			else
 			{
-				cout << "pedecessor Id : " << prev->id << endl;
-				int prevId = prev->id;
-				int leftSum = prev->SommeIdsLeft();
+				cout << "pedecessor Id : " << prev->getThreadId() << endl;
+				int prevId = prev->getThreadId();
+				int leftSum = prev->SommeIdsLeft();//recursive call
 				valueToReturn = prevId + leftSum;
-				cout << "Thread's Id : " << id << " left thread Id sum = " << valueToReturn << " = " << prevId << " (predecessor's Id) + " << leftSum <<" (predecessor's left ids sum)"<< endl;
+				cout << "Thread's Id : " << getThreadId() << " left thread Id sum = " << valueToReturn 
+					<< " = " << prevId << " (predecessor's Id) + " << leftSum <<" (predecessor's left ids sum)"<< endl;
 			}
 			return valueToReturn;
 		}
 
-		inline int SommeIdsRight()
+		inline int SommeIdsRight() //recursive function to have the sum of the ids of the followings
 		{
-			cout << "Thread's Id : " << id << " asked for ids sum of its right" << endl;
+			cout << "Thread's Id : " << getThreadId() << " asked for ids sum of its right" << endl;
 			int valueToReturn = 0;
-			if (next == 0)
+			if (next == 0) // no more followings, we stop
 			{
 				valueToReturn = 0;
-				cout << "Thread's Id : " << id << " right thread Id sum = " << valueToReturn << " (no following)" << endl;
+				cout << "Thread's Id : " << getThreadId() << " right thread Id sum = " << valueToReturn << " (no following)" << endl;
 			}
 			else
 			{
-				cout << "following Id : " << next->id << endl;
-				int nextId = next->id;
-				int rightSum = next->SommeIdsRight();
+				cout << "following Id : " << next->getThreadId() << endl;
+				int nextId = next->getThreadId();
+				int rightSum = next->SommeIdsRight();//recursive call
 				valueToReturn = nextId + rightSum;
-				cout << "Thread's Id : " << id << " right thread Id sum = " << valueToReturn <<" = " << nextId << " (following's Id) + " << rightSum << " (following's right ids sum)" << endl;
+				cout << "Thread's Id : " << getThreadId() << " right thread Id sum = " << valueToReturn
+					<<" = " << nextId << " (following's Id) + " << rightSum << " (following's right ids sum)" << endl;
 			}
 			return valueToReturn;
 		}
@@ -96,58 +106,23 @@ private:
 		thread myThread;
 		bool stopRun; //bool to stop the thread
 		bool getIdRequest; //bool to say to the thread that we need to get its Id;
-		PHANDLE hReadPipe = NULL;
-		PHANDLE hWritePipe = NULL;
+		int tempThreadId;//temp value for communication between threads 
+		HANDLE mySemaphore;//semaphore to bloc acces to tempThreadId when reading / writting
 
-		inline void run(){
-			while (!stopRun)
+		inline void run(int customThreadId){//method executed by the thread
+			while (!stopRun)//like an infinite loop that we can stop
 			{
-				if (getIdRequest)
+				if (getIdRequest)//request for the thread's id
 				{
-					cout << "Thread id :" << this_thread::get_id() << endl;
-					//WriteToPipe((CHAR*)id);
-					int i = 69;
-					WriteToPipe(&i);
+					getIdRequest = false;
+					tempThreadId = customThreadId;
+					ReleaseSemaphore(mySemaphore, 1, NULL);//the semaphore as a token available only after writting (1 max capacity).
+															//by defaut (semaphore creation) there are no token available
+															//and release is done only after writting, so reading is always after writting
 				}
 			}
 		}
 
-		inline void WriteToPipe(int* ch)
-		{
-			DWORD dwRead = 100, dwWritten;
-			//CHAR chBuf[BUFSIZE];
-			getIdRequest = false;
-			bool succes = true;
-			for (;;)
-			{
-				succes = WriteFile(hWritePipe, ch, dwRead, &dwWritten, NULL);
-				if (!succes)
-				{
-					break;
-				}
-			}
-			CloseHandle(hWritePipe);
-		}
-
-		inline int ReadFromPipe()
-		{
-			DWORD dwRead, dwWritten;
-			//CHAR chBuf[BUFSIZE];
-			//ReadFile(hReadPipe, chBuf, BUFSIZE, &dwRead, NULL);
-			//return chBuf;
-
-			int intBuf[BUFSIZE];
-			bool succes = true;
-			for (;;)
-			{
-				succes = ReadFile(hReadPipe, intBuf, BUFSIZE, &dwRead, NULL);
-				if (!succes)
-				{
-					break;
-				}
-			}
-			return intBuf[0];
-		}
 	};
 
 public:

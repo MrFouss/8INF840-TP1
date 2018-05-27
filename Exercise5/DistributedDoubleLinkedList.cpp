@@ -90,7 +90,7 @@ void DistributedDoubleLinkedList::remove(const int & toRemoveData)
 {
 	Thread* current = start;
 
-	while (current->id != toRemoveData && current != 0)
+	while (current->getThreadId() != toRemoveData && current != 0)
 	{
 		current = current->next;
 	}
@@ -124,10 +124,10 @@ void DistributedDoubleLinkedList::remove(const int & toRemoveData)
 void DistributedDoubleLinkedList::cust_copy(Thread* toCopy)
 {
 	try {
-		start = new Thread(toCopy->id);
+		start = new Thread(toCopy->getThreadId());
 		Thread* newNode = start;
 		for (Thread* temp = toCopy; temp != 0; temp = temp->next) {
-			newNode->next = new Thread(temp->id);
+			newNode->next = new Thread(temp->getThreadId());
 			newNode->next->prev = newNode;
 			newNode = newNode->next;
 			cpt++;
