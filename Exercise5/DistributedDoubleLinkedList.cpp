@@ -146,9 +146,13 @@ void DistributedDoubleLinkedList::cust_destroy()
 	Thread* current = start;
 	while (current != 0) {
 		start = current->next;
-		delete(current);
+		current->~Thread();
 		current = start;
-		current->prev = 0;
+		if (current != 0)
+		{
+			current->prev = 0;
+		}
 	}
+	delete(current);
 }
 

@@ -20,6 +20,7 @@ int main()
 	ddcl->end->SommeIds();
 	ddcl->end->prev->prev->SommeIds();
 
+	ddcl->~DistributedDoubleLinkedList();
 	cout << "\n";
 	system("pause");
 

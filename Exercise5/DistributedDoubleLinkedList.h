@@ -29,7 +29,7 @@ private:
 		~Thread()
 		{
 			StopThread();
-			CloseHandle(mySemaphore);
+			//CloseHandle(mySemaphore);
 		}
 
 		inline int SommeIds()//Ask for the sum of all ids in the list
@@ -116,6 +116,7 @@ private:
 															//by defaut (semaphore creation) there are no token available
 															//and release is done only after writting, so reading is always after writting
 				}
+				Sleep(10);
 			}
 		}
 
