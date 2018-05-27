@@ -51,10 +51,10 @@ int main()
 	ddcl->add(6);
 	ddcl->add(3);
 
-	cout << ddcl->start->SommeIds() <<"\n";
-	cout << ddcl->start->next->SommeIds() << "\n";
-	cout << ddcl->end->SommeIds() << "\n";
-	cout << ddcl->end->prev->prev->SommeIds() << "\n";
+	ddcl->start->SommeIds();
+	ddcl->start->next->SommeIds();
+	ddcl->end->SommeIds();
+	ddcl->end->prev->prev->SommeIds();
 	
 
 	cout << "\n";

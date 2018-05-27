@@ -1,5 +1,7 @@
 #include <iostream>
 
+using namespace std;
+
 #pragma once
 class DistributedDoubleLinkedList
 {
@@ -13,32 +15,53 @@ private:
 		Thread(const int& data_item, Thread* next_ptr = 0, Thread* prev_ptr = 0) : id(data_item), next(next_ptr), prev(prev_ptr) {}
 		inline int SommeIds()
 		{
-			return id + SommeIdsLeft() + SommeIdsRight();
+			cout << "Thread's Id : " << id << " asked for ids sum" << endl;
+			int leftSum = SommeIdsLeft();
+			int rightSum = SommeIdsRight();
+			int sommeIds = id + leftSum + rightSum;
+			cout << "Thread's Id : " << id << " calcul complet, result = " 
+				<< sommeIds <<" = " << leftSum <<" (left sum) + " << id <<" (my id) + " << rightSum <<" (right sum)"
+				<< endl << endl << endl;
+			return sommeIds;
 		}
+
 	private:
 		inline int SommeIdsLeft() 
 		{
+			cout << "Thread's Id : " << id << " asked for ids sum of its left" << endl;
 			int valueToReturn = 0;
 			if (prev == 0)
 			{
 				valueToReturn = 0;
+				cout << "Thread's Id : " << id << " left thread Id sum = " << valueToReturn <<" (no predecessor)" << endl;
 			}
 			else
 			{
-				valueToReturn = prev->id + prev->SommeIdsLeft();
+				cout << "pedecessor Id : " << prev->id << endl;
+				int prevId = prev->id;
+				int leftSum = prev->SommeIdsLeft();
+				valueToReturn = prevId + leftSum;
+				cout << "Thread's Id : " << id << " left thread Id sum = " << valueToReturn << " = " << prevId << " (predecessor's Id) + " << leftSum <<" (predecessor's left ids sum)"<< endl;
 			}
 			return valueToReturn;
 		}
+
 		inline int SommeIdsRight()
 		{
+			cout << "Thread's Id : " << id << " asked for ids sum of its right" << endl;
 			int valueToReturn = 0;
 			if (next == 0)
 			{
 				valueToReturn = 0;
+				cout << "Thread's Id : " << id << " right thread Id sum = " << valueToReturn << " (no following)" << endl;
 			}
 			else
 			{
-				valueToReturn = next->id + next->SommeIdsRight();
+				cout << "following Id : " << next->id << endl;
+				int nextId = next->id;
+				int rightSum = next->SommeIdsRight();
+				valueToReturn = nextId + rightSum;
+				cout << "Thread's Id : " << id << " right thread Id sum = " << valueToReturn <<" = " << nextId << " (following's Id) + " << rightSum << " (following's right ids sum)" << endl;
 			}
 			return valueToReturn;
 		}
