@@ -3,9 +3,6 @@
 #include <mutex>
 #include <Windows.h>
 
-
-#define BUFSIZE 100
-
 using namespace std;
 
 #pragma once
@@ -15,7 +12,6 @@ private:
 	//The Node inside de double chained list
 	class Thread {
 	public:
-		//int id;
 		Thread* next;
 		Thread* prev;
 		Thread(const int& data_item, Thread* next_ptr = 0, Thread* prev_ptr = 0) : /*id(data_item),*/ next(next_ptr), prev(prev_ptr) 
