@@ -84,7 +84,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -115,6 +121,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Event.h" />
+    <ClInclude Include="EventManager.h" />
+    <ClInclude Include="IMachine.h" />
+    <ClInclude Include="LogEvent.h" />
+    <ClInclude Include="MachineDataLink.h" />
+    <ClInclude Include="MachineEvent.h" />
+    <ClInclude Include="MachineFinishWorkEvent.h" />
+    <ClInclude Include="MachineIsRepairedEvent.h" />
+    <ClInclude Include="MachineLink.h" />
+    <ClInclude Include="MachineStartWorkEvent.h" />
+    <ClInclude Include="PistonAssemblyMachine.h" />
+    <ClInclude Include="PistonPieceMachine.h" />
+    <ClInclude Include="Queue.h" />
+    <ClInclude Include="Machineable.h" />
+    <ClInclude Include="Piston.h" />
+    <ClInclude Include="PistonPiece.h" />
+    <ClInclude Include="SortMachine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventManager.cpp" />
+    <ClCompile Include="IMachine.cpp" />
+    <ClCompile Include="LogEvent.cpp" />
+    <ClCompile Include="Machineable.cpp" />
+    <ClCompile Include="MachineDataLink.cpp" />
+    <ClCompile Include="MachineEvent.cpp" />
+    <ClCompile Include="MachineFinishWorkEvent.cpp" />
+    <ClCompile Include="MachineIsRepairedEvent.cpp" />
+    <ClCompile Include="MachineLink.cpp" />
+    <ClCompile Include="MachineStartWorkEvent.cpp" />
+    <ClCompile Include="Piston.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="PistonAssemblyMachine.cpp" />
+    <ClCompile Include="PistonPieceMachine.cpp" />
+    <ClCompile Include="SortMachine.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
