@@ -19,11 +19,6 @@ int main() {
 
 	cin >> outputPistonNumber;
 
-	// keep track of the input repartition
-	int skirtNbr = 0;
-	int axisNbr = 0;
-	int headNbr = 0;
-
 	// init RNG
 	srand(time(0));
 
@@ -84,15 +79,12 @@ int main() {
 			switch (rand() % 3) {
 			case 0:
 				sortInput.push(new PistonAxis());
-				axisNbr++;
 				break;
 			case 1:
 				sortInput.push(new PistonSkirt());
-				skirtNbr++;
 				break;
 			case 2:
 				sortInput.push(new PistonHead());
-				headNbr++;
 				break;
 			}
 		}
@@ -103,10 +95,7 @@ int main() {
 	// print stats
 
 	cout << pistonOutput.getSize() << " piston(s) produced in " 
-		<< em->getTime() << " min, out of "
-		<< skirtNbr << " skirt(s), "
-		<< axisNbr << " axis, " 
-		<< headNbr << " head(s)" << endl;
+		<< em->getTime() << " min." << endl;
 
 	system("pause");
 	return 0;
