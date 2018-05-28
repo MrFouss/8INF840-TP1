@@ -13,8 +13,8 @@ public:
 	// the piece type this machine processes
 	typedef PistonPiece<type> Piece;
 
-	PistonPieceMachine(std::string name, float workTime, float breakProbability, float repairTime) :
-		IMachine(name, workTime, breakProbability, repairTime),
+	PistonPieceMachine(std::string name, float workTime, float breakProbability, float minRepairTime, float maxRepairTime) :
+		IMachine(name, workTime, breakProbability, minRepairTime, maxRepairTime),
 		workInProgress(0) {}
 
 	virtual ~PistonPieceMachine() {
@@ -32,11 +32,11 @@ public:
 	}
 
 protected:
+
 	bool canStartNextJob() override { 
 		assert(areLinksConnected());
 		return !getInputLink()->isEmpty() && workInProgress == 0; 
 	}
-
 	void startNextJob() override {
 		assert(canStartNextJob());
 		workInProgress = getInputLink()->pop();
@@ -47,8 +47,8 @@ protected:
 		workInProgress->setMachined();
 		getOutputLink()->push(workInProgress);
 		workInProgress = 0;
-		EventManager& em = EventManager::getInstance();
-		em.addEvent(new LogEvent(em.getTime(), getName() + " finished processing a piece"));
+		EventManager* em = EventManager::getInstance();
+		em->addEvent(new LogEvent(em->getTime(), getName() + " finished processing a piece"));
 	}
 
 private:

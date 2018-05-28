@@ -19,13 +19,15 @@ class MachineLink;
 class IMachine {
 public:
 
-	IMachine(std::string name, float workTime, float breakProbability, float repairTime);
+	IMachine(std::string name, float workTime, float breakProbability, float minRepairTime, float maxRepairTime);
 	virtual ~IMachine() = default;
 
 	std::string getName();
+	bool isMachineWorking() const { return isWorking; }
 
 	// notify this machine that one of its input links has new data available
 	void onInputLinkUpdated();
+
 
 protected:
 
@@ -80,7 +82,8 @@ private:
 	std::string name;
 	float workTime;
 	float breakProbability;
-	float repairTime;
+	float minRepairTime;
+	float maxRepairTime;
 	bool isBroken;
 	bool isWorking;
 

@@ -6,9 +6,9 @@
 #include "PistonPiece.h"
 #include "MachineDataLink.h"
 
-class PistonAssemblyMachine : public IMachine {
+class PistonAssemblyMachine  : public IMachine {
 public:
-	PistonAssemblyMachine(std::string name, float workTime, float breakProbability, float repairTime);
+	PistonAssemblyMachine(std::string name, float workTime, float breakProbability, float minRepairTime, float maxRepairTime);
 	virtual ~PistonAssemblyMachine();
 
 	void linkSkirtInput(MachineDataLink<PistonSkirt>* input);

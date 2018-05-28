@@ -12,13 +12,17 @@ EventManager::EventManager() :
 	printLog(false) 
 {}
 
-EventManager & EventManager::getInstance() {
+EventManager* EventManager::getInstance() {
 	static EventManager em;
-	return em;
+	return &em;
 }
 
 EventManager::~EventManager() {
-	triggerAllEvents();
+	while (isEmpty()) {
+		Event* e = eventList.top();
+		eventList.pop();
+		delete e;
+	}
 }
 
 void EventManager::addEvent(Event* event) {
@@ -28,6 +32,10 @@ void EventManager::addEvent(Event* event) {
 
 void EventManager::setPrintLog(bool printLog) {
 	this->printLog = printLog;
+}
+
+Event * EventManager::nextEvent() const {
+	return eventList.top();
 }
 
 void EventManager::triggerNextEvent() {
@@ -56,5 +64,6 @@ float EventManager::getTime() const {
 }
 
 bool EventManager::Posteriority::operator()(const Event * a, const Event * b) {
-	return a->getTriggerTime() > b->getTriggerTime();
+	return a->getTriggerTime() > b->getTriggerTime()
+		|| dynamic_cast<LogEvent *>(const_cast<Event*>(b)) != 0;
 }

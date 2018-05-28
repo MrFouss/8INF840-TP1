@@ -6,13 +6,14 @@ class Event;
 
 class EventManager {
 public:
-	static EventManager& getInstance();
+	static EventManager* getInstance();
 
 	~EventManager();
 	
 	void addEvent(Event* event);
 	void setPrintLog(bool printLog);
 
+	Event* nextEvent() const;
 	void triggerNextEvent();
 	void triggerAllEvents();
 

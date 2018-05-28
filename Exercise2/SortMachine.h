@@ -10,7 +10,7 @@ class MachineDataLink;
 // a machine that sorts machinable pieces between axis, skirt and head piston pieces
 class SortMachine : public IMachine {
 public:
-	SortMachine(std::string name, float workTime, float breakProbability, float repairTime);
+	SortMachine(std::string name, float workTime, float breakProbability, float minRepairTime, float maxRepairTime);
 	virtual ~SortMachine();
 
 	void linkSkirtOutput(MachineDataLink<PistonSkirt>* output);

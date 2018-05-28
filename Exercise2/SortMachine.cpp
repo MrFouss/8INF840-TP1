@@ -11,8 +11,8 @@ const std::string SortMachine::axisOutputName = "SortMachineAxisOutput";
 const std::string SortMachine::headOutputName = "SortMachineHeadOutput";
 const std::string SortMachine::inputName = "SortMachineInput";
 
-SortMachine::SortMachine(std::string name, float workTime, float breakProbability, float repairTime) :
-	IMachine(name, workTime, breakProbability, repairTime),
+SortMachine::SortMachine(std::string name, float workTime, float breakProbability, float minRepairTime, float maxRepairTime) :
+	IMachine(name, workTime, breakProbability, minRepairTime, maxRepairTime),
 	workInProgress(0) 
 {}
 
@@ -61,8 +61,8 @@ void SortMachine::finishCurrentJob() {
 		std::exit(1);
 	}
 
-	EventManager& em = EventManager::getInstance();
-	em.addEvent(new LogEvent(em.getTime(), message));
+	EventManager* em = EventManager::getInstance();
+	em->addEvent(new LogEvent(em->getTime(), message));
 	workInProgress = 0;
 }
 

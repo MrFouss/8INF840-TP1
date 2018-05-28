@@ -8,8 +8,8 @@ const std::string PistonAssemblyMachine::axisInputName = "PistonAssemblyMachineA
 const std::string PistonAssemblyMachine::headInputName = "PistonAssemblyMachineHeadInput";
 const std::string PistonAssemblyMachine::outputName = "PistonAssemblyMachineOutput";
 
-PistonAssemblyMachine::PistonAssemblyMachine(std::string name, float workTime, float breakProbability, float repairTime) :
-	IMachine(name, workTime, breakProbability, repairTime),
+PistonAssemblyMachine::PistonAssemblyMachine(std::string name, float workTime, float breakProbability, float minRepairTime, float maxRepairTime) :
+	IMachine(name, workTime, breakProbability, minRepairTime, maxRepairTime),
 	headInProgress(0),
 	skirtInProgress(0),
 	axisInProgress(0) 
@@ -64,8 +64,8 @@ void PistonAssemblyMachine::finishCurrentJob() {
 	skirtInProgress = 0;
 	axisInProgress = 0;
 	getOutputLink()->push(piston);
-	EventManager& em = EventManager::getInstance();
-	em.addEvent(new LogEvent(em.getTime(), getName() + " assembled a piston"));
+	EventManager* em = EventManager::getInstance();
+	em->addEvent(new LogEvent(em->getTime(), getName() + " assembled a piston"));
 }
 
 MachineDataLink<PistonHead>* PistonAssemblyMachine::getHeadInputLink() {
