@@ -9,7 +9,7 @@ int main() {
 	Pile<Card>* deck = MakeDeck(DECK_SIZE);
 	//PrintDeck(deck);
 
-	int nbCardPlayer = getCardNumber();
+	int nbCardPlayer = GetCardNumber();
 	Pile<Card>* j1_play = new Pile<Card>(nbCardPlayer);
 	Pile<Card>* j1_gain = new Pile<Card>(DECK_SIZE);
 

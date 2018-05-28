@@ -20,7 +20,7 @@ int getChosenColor()
 			<< "2 pour marrons\n"
 			<< "3 pour noirs\n"
 			<< "Couleur choisie > ";
-		cin >> (int)cn;
+		cin >> cn;
 	} while (cn < 0 || cn > 3);
 
 	return cn;
@@ -33,7 +33,7 @@ int getChosenMemberId(Genealogy* family)
 
 	do
 	{
-		cin >> (int)cn;
+		cin >> cn;
 	} while (!family->exists(cn));
 
 	return cn;

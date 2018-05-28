@@ -54,7 +54,7 @@ int main() {
 			// Afficher l'arbre généalogique actuel
 			case 2 :
 				cout << "\nAfficher les details des membres ? (1 pour oui, 0 pour non) > ";
-				cin >> (bool) boolChoice;
+				cin >> boolChoice;
 				family->printGenealogy(boolChoice);
 				break;
 
@@ -97,13 +97,13 @@ int main() {
 				cout << "Prenom > ";
 				cin >> firstname;
 				cout << "Annee de naissance > ";
-				cin >> (int)birthyear;
+				cin >> birthyear;
 				cout << "Couleur des yeux [0=bleu, 1=vert, 2=marron, 3=noir] > ";
 				eyeColorChoice = itoEyeColor(getChosenColor());
 				cout << "ID du descendant > ";
-				cin >> (int)childId;
+				cin >> childId;
 				cout << "De quel ancetre s'agit-il ? [0 pour la mere, 1 pour le pere] > ";
-				cin >> (bool) boolChoice;
+				cin >> boolChoice;
 				family->addMember(name.c_str(), firstname.c_str(), birthyear, eyeColorChoice, childId, boolChoice);
 				cout << "\nNouveau membre " << firstname << " " << name << " ajoute.\n";
 				break;

@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "utils.h"
 
 Pile<Card>* MakeDeck(int deckSize)
@@ -11,14 +13,14 @@ Pile<Card>* MakeDeck(int deckSize)
 	return deck;
 }
 
-int getCardNumber() {
+int GetCardNumber() {
 	int cn;
 	bool flag = false;
 
 	do
 	{
 		cout << "Entrer le nombre de cartes par joueur [1-" << (DECK_SIZE / 2) << "]\n";
-		cin >> (int)cn;
+		cin >> cn;
 	} while (cn < 1 || cn >(DECK_SIZE / 2));
 
 	return cn;
@@ -54,7 +56,7 @@ void Distribution(Pile<Card>* deck, Pile<Card>* p1, Pile<Card>* p2, int n)
 	}
 }
 
-void WinRound(Pile<Card>* winner, char* winName, Card c1, Card c2)
+void WinRound(Pile<Card>* winner, const char* winName, Card c1, Card c2)
 {
 	cout << winName << " wins\n";
 	winner->push(c1);

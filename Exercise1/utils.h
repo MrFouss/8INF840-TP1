@@ -1,15 +1,14 @@
+#pragma once
+
 #include "Pile.h"
 #include "Card.h"
 #include "params.h"
-
-#ifndef UTILS_H
-#define UTILS_H
 
 // Build deck containing deckSize random cards
 Pile<Card>* MakeDeck(int deckSize);
 
 // get a number of card to be distributed to each player considering some rules
-int getCardNumber();
+int GetCardNumber();
 
 // copy deck and then pop and print every card
 void PrintDeck(Pile<Card>* deck);
@@ -28,5 +27,3 @@ void PrintSituation(Pile<Card>* j1_play, Pile<Card>* j1_gain, Pile<Card>* j2_pla
 
 // calculation of the score of a gain stack
 int Score(Pile<Card>* gain);
-
-#endif // !UTILS_H
